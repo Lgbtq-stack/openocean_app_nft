@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Open Ocean</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="upper-side">
+            <div class="logo">Open Ocean</div>
+            <div class="my-nfts-nav"><a href="#" onclick="showSection('my-nfts')"> <img src="content/user.png" alt="NFT 1"></a></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="showSection('hero')">Home</a></li>
+            <li><a href="#" onclick="showSection('trending')">Trending</a></li>
+            <li><a href="#" onclick="showSection('categories')">Categories</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="hero" class="hero">
+    <div class="hero-content">
+        <h1>Discover and Trade Digital Collectibles</h1>
+        <div class="nft-showcase">
+            <img src="content/nft_1.png" alt="NFT 1">
+            <img src="content/nft_2.png" alt="NFT 2">
+            <img src="content/nft_3.png" alt="NFT 3">
+            <img src="content/nft_4.png" alt="NFT 4">
+            <img src="content/nft_5.png" alt="NFT 5">
+        </div>
+        <p>Browse trending NFTs and become part of the growing NFT community.</p>
+
+        <button class="cta" onclick="showSection('trending')">Explore NFTs</button>
+    </div>
+</section>
+
+<section id="trending" class="trending" style="display: none;">
+    <h2>Trending NFTs</h2>
+    <div class="trending-slider-container">
+        <div class="trending-slider" id="slider">
+            <div class="trending-slider-track" id="sliderTrack">
+            </div>
+        </div>
+    </div>
+    <div class="trending-content">
+        <h3>Other Trending NFTs</h3>
+        <div class="cards">
+        </div>
+    </div>
+</section>
+
+<section id="categories" class="categories" style="display: none;">
+    <h2>Explore Categories</h2>
+    <div class="slider-category-list-container">
+        <div class="slider-control prev" aria-label="Previous"> <img src="content/arrow.png" alt="arrow"> </div>
+        <div class="slider-wrapper">
+            <div class="slider-category-list">
+                <!-- Place for slider elements -->
+            </div>
+        </div>
+        <div class="slider-control next" aria-label="Next"> <img src="content/arrow.png" alt="arrow"> </div>
+    </div>
+    <div class="category-list-container">
+        <div id="category-list" class="category-list">
+            <!-- Place for elements in container-->
+        </div>
+
+        <div id="pagination-container" class="pagination"></div>
+    </div>
+</section>
+
+<section class="my-nfts" id="my-nfts" style="display: none;">
+    <h2>My NFTs</h2>
+    <div class="total-value-box">
+        <p id="nft-total-value">Total Value: 00000 XML</p>
+    </div>
+
+    <div class="category-slider" id="category-slider" style="display: block;">
+        <div class="slider-control-nft prev"> <img src="content/arrow.png" alt="arrow"> </div>
+        <div class="nft-slider-wrapper">
+            <div class="nft-slider-track" id="my-nft-slider-track">
+                <!-- Кнопки категорий добавятся сюда динамически -->
+            </div>
+        </div>
+        <div class="slider-control-nft next"> <img src="content/arrow.png" alt="arrow"> </div>
+    </div>
+
+    <div class="explore-section" id="explore-section" style="display: none;">
+        <h2>Explore NFTs</h2>
+        <div class="my-nft-cards" id="my-nft-cards">
+            <!-- Карточки будут добавляться сюда -->
+        </div>
+    </div>
+
+    <div class="my-nft-no-nfts" id="my-nft-no-nfts" style="display: none;">
+        <p>You don't have any NFTs in this collection.</p>
+        <button class="my-nft-cta" onclick="showSection('trending')">Explore NFTs</button>
+    </div>
+</section>
+
+<div class="bottom-panel">
+    <div class="wallet-info">
+        <p class="wallet-address" id="wallet-address"><strong>Wallet:</strong></p>
+        <p class="wallet-balance" id="wallet-balance"><strong>Balance:</strong></p>
+    </div>
+
+    <div class="button-group">
+        <button class="recharge-button">Recharge</button>
+        <button class="withdraw-button">Withdraw</button>
+    </div>
+</div>
+
+<div class="nft-details-panel" id="nftDetailsPanel">
+    <div class="panel-content">
+        <button class="close-panel">X</button>
+        <img id="nft-image" class="nft-image" src="" alt="NFT Image">
+        <h2 id="nft-title" class="nft-title">NFT Title</h2>
+
+        <div class="nft-info-row">
+            <div class="nft-info-item">
+                <div class="nft-collection-icon-info">🏷️ </div><span id="nft-collection">Box</span>
+            </div>
+            <div class="nft-info-item">
+                <div class="nft-holders-icon-info">👥 </div><span id="nft-holders">0</span>
+            </div>
+            <div class="nft-info-item">
+                <div class="nft-total-bought-icon-info">📊 </div><span id="nft-total-bought">0</span>
+            </div>
+            <div class="nft-info-item">
+                <div class="nft-owned-count-icon-info">📥 </div><span id="nft-owned-count">0</span>
+            </div>
+        </div>
+
+        <div class="nft-description">
+            <p><strong>📝 </strong> <span id="nft-description">No Description Available.</span></p>
+        </div>
+
+        <div class="nft-price-row">
+            <p><strong>💰 </strong> <span id="nft-price">37.22 XLM</span></p>
+        </div>
+
+        <div class="count-container">
+            <button class="count-button" id="decrease-count">-</button>
+            <span id="nft-count-display">1</span>
+            <button class="count-button" id="increase-count">+</button>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="scrollToTop" class="scroll-to-top">↑</button>
+
+<div id="popup-overlay" class="popup-overlay">
+    <div class="popup-content" id="popup-content">
+        <h2 id="popup-title">Recharge/Withdraw</h2>
+
+        <div id="recharge-content" style="display: none;">
+            <p class="instructions-text">Follow the instructions to deposit funds:</p>
+            <ol class="recharge-steps">
+                <li>
+                    <p>Transfer funds to the following wallet:</p>
+                    <div class="copy-section">
+                        <strong>Wallet:</strong>
+                        <p><span id="wallet-address-popup">GA5325235252</span></p>
+                        <button class="copy-button" onclick="copyToClipboard('wallet-address-popup')">COPY</button>
+                    </div>
+                </li>
+
+                <li>
+                    <p>Add the following MEMO to your transfer:</p>
+                    <div class="copy-section">
+                        <strong>MEMO:</strong>
+                        <p><span id="memo-value">350104566</span></p>
+                        <button class="copy-button" onclick="copyToClipboard('memo-value')">COPY</button>
+                    </div>
+                </li>
+
+                <li>
+                    <p>The balance will be updated within 5 minutes.</p>
+                </li>
+            </ol>
+            <p class="important-text"><strong>IMPORTANT:</strong> Ensure the MEMO matches exactly to avoid losing your funds.</p>
+            <button class="ok-button" onclick="closePopup()">OK</button>
+        </div>
+
+        <div id="withdraw-content" class="withdraw-content" style="display: none;">
+            <p>Enter the withdrawal details:</p>
+
+            <input type="text" id="wallet-input" class="input-field" placeholder="Recipient Wallet" />
+            <input type="number" id="amount-input" class="input-field" placeholder="Amount" />
+
+            <p class="warning-withdraw">⚠️ Your wallet will be credited within 15 minutes..</p>
+
+            <div class="popup-buttons">
+                <button id="confirm-button" class="confirm-button">Confirm</button>
+                <button id="close-popup-button" class="close-popup-button" onclick="closePopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="countdown-popup" class="popup-overlay">
+    <div class="countdown-popup-content">
+        <h2>Confirmation Sent</h2>
+        <p>The MiniApp will close automatically.</p>
+        <p id="countdown-timer">Closing in 5 seconds...</p>
+    </div>
+</div>
+
+<div id="error-popup" class="error-popup-overlay">
+    <div class="error-popup-content">
+        <h2 id="error-title">Warning</h2>
+        <p id="error-message">Something went wrong. Please try again.</p>
+        <button id="close-error-popup-button">Close</button>
+    </div>
+</div>
+
+<script src="config_loader.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
+

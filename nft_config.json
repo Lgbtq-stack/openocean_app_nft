@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Abstract Waves",
+    "category": "art",
+    "price": "0.02 ETH",
+    "image": "content/nft_1.png"
+  },
+  {
+    "id": 2,
+    "name": "Urban House",
+    "category": "gaming",
+    "price": "0.25 ETH",
+    "image": "content/nft_5.png"
+  },
+  {
+    "id": 3,
+    "name": "Winter Serenity",
+    "category": "photography",
+    "price": "0.4 ETH",
+    "image": "content/nft_3.png"
+  },
+  {
+    "id": 4,
+    "name": "Digital Art",
+    "category": "memberships",
+    "price": "1.2 ETH",
+    "image": "content/nft_4.png"
+  }
+]

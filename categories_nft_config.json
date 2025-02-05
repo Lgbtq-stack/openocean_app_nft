@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "NFT Art 3",
+    "category": "Art",
+    "image": "https://placehold.co/200x200",
+    "price": "$100"
+  },
+  {
+    "id": 2,
+    "name": "NFT Art 4",
+    "category": "Music",
+    "image": "https://placehold.co/200x200",
+    "price": "$150"
+  },
+  {
+    "id": 3,
+    "name": "NFT Art 5",
+    "category": "Games",
+    "image": "https://placehold.co/200x200",
+    "price": "$200"
+  },
+  {
+    "id": 1,
+    "name": "NFT Art 3",
+    "category": "Art",
+    "image": "https://placehold.co/200x200",
+    "price": "$100"
+  },
+  {
+    "id": 2,
+    "name": "NFT Art 4",
+    "category": "Music",
+    "image": "https://placehold.co/200x200",
+    "price": "$150"
+  },
+  {
+    "id": 3,
+    "name": "NFT Art 5",
+    "category": "Games",
+    "image": "https://placehold.co/200x200",
+    "price": "$200"
+  },
+  {
+    "id": 1,
+    "name": "NFT Art 3",
+    "category": "Art",
+    "image": "https://placehold.co/200x200",
+    "price": "$100"
+  },
+  {
+    "id": 2,
+    "name": "NFT Art 4",
+    "category": "Music",
+    "image": "https://placehold.co/200x200",
+    "price": "$150"
+  },
+  {
+    "id": 3,
+    "name": "NFT Art 5",
+    "category": "Games",
+    "image": "https://placehold.co/200x200",
+    "price": "$200"
+  },
+  {
+    "id": 1,
+    "name": "NFT Art 3",
+    "category": "Art",
+    "image": "https://placehold.co/200x200",
+    "price": "$100"
+  }
+]
