@@ -667,9 +667,34 @@ function createPageButton(pageNumber, currentPage, onPageChange) {
         button.classList.add("active");
     }
 
-    button.addEventListener("click", () => onPageChange(pageNumber));
+    button.addEventListener("click", () => {
+        onPageChange(pageNumber);
+        scrollToTop();
+    });
+
     return button;
 }
+
+// Функция для плавного скролла наверх
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+}
+
+// Показ/скрытие кнопки скролла наверх
+const scrollToTopButton = document.getElementById('scrollToTop');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        scrollToTopButton.style.display = 'flex';
+    } else {
+        scrollToTopButton.style.display = 'none';
+    }
+});
+
+scrollToTopButton.addEventListener('click', scrollToTop);
+
 
 async function onPageChange(newPage) {
     currentPage = newPage;
@@ -795,19 +820,25 @@ function initializeSlider() {
     prevArrow.addEventListener("click", () => moveSlider(-1000));
     nextArrow.addEventListener("click", () => moveSlider(1000));
 
+    // Переменные для отслеживания сенсорного и мышечного взаимодействия
     let isDragging = false;
     let startX = 0;
+    let scrollLeft = 0;
 
+    // === Поддержка мыши ===
     sliderWrapper.addEventListener("mousedown", (e) => {
         isDragging = true;
-        startX = e.clientX;
+        startX = e.pageX - sliderWrapper.offsetLeft;
+        scrollLeft = sliderWrapper.scrollLeft;
         sliderWrapper.style.cursor = "grabbing";
     });
 
     sliderWrapper.addEventListener("mousemove", (e) => {
         if (!isDragging) return;
-        sliderWrapper.scrollLeft += startX - e.clientX;
-        startX = e.clientX;
+        e.preventDefault();
+        const x = e.pageX - sliderWrapper.offsetLeft;
+        const walk = (x - startX) * 2;
+        sliderWrapper.scrollLeft = scrollLeft - walk;
     });
 
     sliderWrapper.addEventListener("mouseup", () => {
@@ -818,6 +849,24 @@ function initializeSlider() {
     sliderWrapper.addEventListener("mouseleave", () => {
         isDragging = false;
         sliderWrapper.style.cursor = "grab";
+    });
+
+    sliderWrapper.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        startX = e.touches[0].pageX - sliderWrapper.offsetLeft;
+        scrollLeft = sliderWrapper.scrollLeft;
+    });
+
+    sliderWrapper.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.touches[0].pageX - sliderWrapper.offsetLeft;
+        const walk = (x - startX) * 2;
+        sliderWrapper.scrollLeft = scrollLeft - walk;
+    });
+
+    sliderWrapper.addEventListener("touchend", () => {
+        isDragging = false;
     });
 }
 
