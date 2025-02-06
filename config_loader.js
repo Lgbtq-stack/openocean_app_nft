@@ -62,7 +62,8 @@ function getUserIdFromURL() {
 
 function updateWalletInfo(nickname, balance) {
     document.getElementById("wallet-address").textContent = `User: ${nickname}`;
-    document.getElementById("wallet-balance").textContent = `Balance: ${balance} XLM`;
+    document.getElementById("wallet-balance").innerHTML = `Balance: ${balance} 
+    <img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: sub;">`;
 }
 
 async function loadCategoriesOnce(includeAll = false) {
@@ -98,7 +99,7 @@ async function loadCategoriesOnce(includeAll = false) {
 
 function renderCategories(categories) {
     const categoryContainer = document.getElementById("category-list");
-    categoryContainer.innerHTML = "";  // Очищаем старые категории
+    categoryContainer.innerHTML = "";
 
     categories.forEach(category => {
         const categoryCard = document.createElement("div");
@@ -167,7 +168,7 @@ async function loadTrendingNFTs() {
                         <h3 class="trending-nft-title">${nft.name}</h3>
                         <div class="trending-info-row">
                             <div class="trending-info-item">🏷️ ${nft.collection || "Unknown"}</div>
-                            <div class="trending-info-item">💰 ${nft.price} XLM</div>
+                            <div class="trending-info-item"><img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; margin-left: 15px; vertical-align: middle;"> ${nft.price}</div>
                         </div>
                     </div>
                 </div>
@@ -205,7 +206,7 @@ async function loadTrendingNFTs() {
                         <div class="nft-info-item">📊 <span>${nft.totalBought}</span></div>
                     </div>
                     
-                    <p class="nft-price">💰${nft.price} XLM</p>
+                    <p class="nft-price"><img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: middle;"> ${nft.price}</p>
                 </div>
 
                 <div class="nft-button-container">
@@ -232,6 +233,7 @@ async function loadTrendingNFTs() {
 
 async function showNFTDetails(id, dataSource) {
     try {
+        disableScroll();
         if (!dataSource || !Array.isArray(dataSource)) {
             throw new TypeError("Invalid dataSource: expected an array of objects.");
         }
@@ -247,8 +249,8 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-collection').textContent = nft.collection.name || nft.collection;
         document.getElementById('nft-holders').textContent = `${nft.userCount}`;
         document.getElementById('nft-total-bought').textContent = `${nft.totalBought}`;
-        document.getElementById('nft-description').textContent = nft.description || "No Description Available.";
-        document.getElementById('nft-price').textContent = `${nft.price} XLM`;
+        document.getElementById('nft-description').textContent = `${nft.description}`;
+        document.getElementById('nft-price').textContent = `${nft.price}`;
 
         const countNFT = document.getElementById("nft-owned-count");
         const nftInfoItem = countNFT.closest(".nft-info-item");
@@ -264,7 +266,8 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-count-display').textContent = `${nftCount}`;
 
         function updateBuyButton(price, count) {
-            buyButton.textContent = `Buy NFT: ${(price * count).toFixed(2)} XLM`;
+            buyButton.innerHTML = `Buy NFT: <img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: top"> ${(price * count).toFixed(2)} 
+            `;
         }
 
         let buyButton = document.querySelector('.buy-nft-button');
@@ -293,7 +296,7 @@ async function showNFTDetails(id, dataSource) {
         buyButton.onclick = () => {
             if(nftCount * nft.price > userDataCache.data.balance)
             {
-                showErrorPopup("error", "You don't have enough XLM!");
+                showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 20px; height: 15px; vertical-align: middle;\">!");
             }
             else {
 
@@ -331,6 +334,8 @@ async function sendDataToTelegramTest(user_id, nft_id, count) {
 function closeNFTDetails() {
     const panel = document.getElementById("nftDetailsPanel");
     panel.classList.remove("show");
+    enableScroll();
+
 }
 
 async function fetchUserData(userId) {
@@ -370,8 +375,10 @@ function displayUserInfo(userData) {
 
     const nftValueElement = document.getElementById("nft-total-value");
     if (nftValueElement) {
-        nftValueElement.textContent = `NFT Total Value: ${userData.nft_total_value.toFixed(2)} XLM`;
+        nftValueElement.innerHTML = `NFT Total Value: ${userData.nft_total_value.toFixed(2)} 
+    <img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: middle;">`;
     }
+
 }
 
 async function fetchUserNFTs(userId, collectionId = "", page = 1, limit = 5) {
@@ -430,7 +437,7 @@ function renderPurchasedNFTs(nfts) {
                     </div>
                 </div>
                 <div class="my-nft-card-price">
-                    <p><strong>💰 </strong> ${nft.price} XLM</p>
+                    <p><strong><img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: middle;"></strong> ${nft.price} </p>
                 </div>
                 <button class="my-nft-details-button" id="details-${nft.id}">
                     <img class="my-nft-info-icon" src="content/info.png" alt="Info"> Details
@@ -844,6 +851,7 @@ function openPopup(action) {
 }
 
 function closePopup() {
+    enableScroll();
     popupOverlay.style.display = "none";
 }
 
@@ -933,7 +941,6 @@ function copyToClipboard(elementId) {
         .catch(() => showErrorPopup("warning", "Failed to copy"));
 }
 
-closeButton.addEventListener("click", closePopup);
 
 document.querySelector(".recharge-button").addEventListener("click", () => openPopup("recharge"));
 document.querySelector(".withdraw-button").addEventListener("click", () => openPopup("withdraw"));
@@ -962,10 +969,20 @@ function showErrorPopup(type, message) {
 
 function closeErrorPopup() {
     errorPopup.style.display = "none";
+    enableScroll();
+
 }
 
 closeErrorPopupButton.addEventListener("click", closeErrorPopup);
 overlayErrorPopupButton.addEventListener("click", closeErrorPopup);
+
+function disableScroll() {
+    document.body.classList.add('no-scroll');
+}
+
+function enableScroll() {
+    document.body.classList.remove('no-scroll');
+}
 
 async function initializeApp() {
     const userId = getUserIdFromURL();
