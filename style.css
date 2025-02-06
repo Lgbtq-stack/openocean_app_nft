@@ -4,9 +4,9 @@
     --secondary-bg-color: #585858;
     --third-bg-color: #565656;
 
-    --accent-color: #f97316;
+    --accent-color: #279ef3;
 
-    --accent-hover-color: #ffb700;
+    --accent-hover-color: #0262aa;
 
     --text-color: #fff;
     --card-bg-color: #464646;
@@ -184,7 +184,7 @@ h3 {
     transform: translateY(-50%);
     width: 1px;
     height: 60%;
-    background-color: #ffa500;
+    background-color: var(--accent-color);
 }
 
 .nav-links a {
@@ -198,7 +198,7 @@ h3 {
 .nav-links a:focus,
 .nav-links a:active,
 .nav-links a:focus-visible  {
-    background-color: var(--accent-color);
+    background-color: var(--accent-hover-color);
     color: var(--text-color);
     border-radius: 20px;
     padding: 10px 14px;
@@ -417,7 +417,7 @@ h3 {
 .nft-price {
     font-size: 18px;
     font-weight: bold;
-    color: #f97316;
+    color: var(--text-color);
     text-align: center;
     padding: 0 0 10px 0;
 }
@@ -713,7 +713,7 @@ h3 {
     justify-content: center;
     gap: 8px;
     padding: 10px 15px;
-    background-color: #f97316;
+    background-color: var(--accent-color);
     border: none;
     border-radius: 20px;
     color: white;
@@ -741,7 +741,7 @@ h3 {
 }
 
 .my-nft-cta {
-    background-color: #f97316;
+    background-color: var(--accent-color);
     color: white;
     padding: 10px 20px;
     border: none;
@@ -843,7 +843,7 @@ h3 {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-bottom: 2px solid #f97316;
+    border-bottom: 2px solid var(--accent-color);
 }
 
 .trending-nft-image img{
@@ -1107,7 +1107,7 @@ h3 {
 }
 
 .pagination-btn:hover {
-    background-color: var(--text-color);
+    background-color: var(--accent-hover-color);
 }
 
 .dots {
@@ -1166,7 +1166,7 @@ footer {
         padding: 15px 10px 25px 10px;
         width: 100%;
         background-color: #5a5a5a;
-        border-top: 3px solid #ee701a;
+        border-top: 3px solid var(--accent-color);
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
     }
