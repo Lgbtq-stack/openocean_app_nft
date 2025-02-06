@@ -867,37 +867,74 @@ amountInput.addEventListener("keydown", (e) => {
     }
 });
 
+import StellarSdk from 'https://cdn.jsdelivr.net/npm/@stellar/stellar-sdk/+esm';
+const server = new StellarSdk.Horizon.Server("https://horizon.stellar.org");
+
+async function checkTrustline(accountId) {
+    try {
+        const assetCode = "NFT";
+        const assetIssuer = "GBBWC7PI3LX4GNQ2AMF3HOHJCTHFWSIADMCB2DZIRNM6IKIVRTXMJTRG";
+        const account = await server.loadAccount(accountId);
+
+
+        const trustlineExists = account.balances.some(balance =>
+            balance.asset_code === assetCode && balance.asset_issuer === assetIssuer
+        );
+        console.log(`Trustline to ${assetCode} (${assetIssuer}) exists:`, trustlineExists);
+
+        return trustlineExists;
+    } catch (error) {
+        console.error("Error checking trustline:", error);
+        return false;
+    }
+}
+
+let isProcessing = false;
+
 async function handleConfirm() {
+    if (isProcessing) {
+        showErrorPopup("warning", "Please wait before trying again.");
+        return;
+    }
+
     let walletAddress = walletAddressInput.value.trim();
     let amount = parseFloat(amountInput.value);
 
+    isProcessing = true;
+
     if (!walletAddress) {
         showErrorPopup("error", "Wallet address cannot be empty.");
+        isProcessing = false;
         return;
     }
 
     if (!walletAddress.startsWith("G")) {
         showErrorPopup("error", "Wallet address must start with the letter 'G'.");
+        isProcessing = false;
         return;
     }
 
     if (walletAddress.length !== 56) {
         showErrorPopup("error", "Wallet address must be exactly 56 characters long.");
+        isProcessing = false;
         return;
     }
 
     if (!walletAddress.match(/^[A-Z0-9]+$/)) {
         showErrorPopup("error", "Wallet address must contain only uppercase letters and digits.");
+        isProcessing = false;
         return;
     }
 
     if (isNaN(amount) || amount <= 0) {
         showErrorPopup("error", "Please enter a valid amount.");
+        isProcessing = false;
         return;
     }
 
     if (amount > userDataCache.data.balance) {
         showErrorPopup("error", "Entered amount exceeds your balance.");
+        isProcessing = false;
         return;
     }
 
@@ -906,6 +943,7 @@ async function handleConfirm() {
 
         if (!response.ok) {
             showErrorPopup("error", "Wallet address not found on the Stellar network.");
+            isProcessing = false;
             return;
         }
 
@@ -913,11 +951,23 @@ async function handleConfirm() {
 
         if (!walletData.paging_token || walletData.paging_token !== walletAddress) {
             showErrorPopup("error", "This wallet doesn't exist in blockchain.");
+            isProcessing = false;
             return;
         }
+
+        const hasTrustline = await checkTrustline(walletAddress);
+        if (!hasTrustline) {
+            showErrorPopup("error", "No trustline exists for the NFT asset.");
+
+            isProcessing = false;
+            return;
+        }
+
     } catch (error) {
         console.error("Error fetching wallet data:", error);
         showErrorPopup("error", "Failed to validate wallet address. Please try again.");
+
+        isProcessing = false;
         return;
     }
     const data = JSON.stringify({
@@ -932,6 +982,10 @@ async function handleConfirm() {
     // showErrorPopup("success", "Your wallet will be credited within 15 minutes..")
     walletAddressInput.value = "";
     amountInput.value = "";
+
+    setTimeout(() => {
+        isProcessing = false;
+    }, 5000);
 }
 
 function copyToClipboard(elementId) {
