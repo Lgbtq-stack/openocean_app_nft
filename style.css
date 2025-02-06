@@ -592,8 +592,8 @@ h3 {
 .buy-nft-button {
     background-color: var(--accent-color);
     color: var(--text-color);
-    padding: 40px 20px 20px 20px;
-    font-size: 1.4em;
+    padding: 15px 20px 5px 20px;
+    font-size: 1.3em;
     font-weight: bold;
     border-radius: 20px;
     border: none;
@@ -619,10 +619,6 @@ h3 {
     cursor: pointer;
 }
 
-.buy-nft-button img {
-    width: 40px;
-    height: auto;
-}
 
 /* My NFT */
 .my-nft-card {
@@ -1405,7 +1401,9 @@ footer {
 .copy-section {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
+
 }
 
 .copy-section strong {
@@ -1420,6 +1418,9 @@ footer {
     border-radius: 20px;
     font-size: 1rem;
     flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .copy-button {

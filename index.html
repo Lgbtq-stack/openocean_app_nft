@@ -143,7 +143,7 @@
         </div>
 
         <div class="nft-price-row">
-            <p><strong><img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; position: relative; top: 20px;"> </strong> <span id="nft-price">37.22 NFT</span></p>
+            <p><span id="nft-price">37.22 NFT</span></p>
         </div>
 
         <div class="count-container">
@@ -166,10 +166,19 @@
             <p class="instructions-text">Follow the instructions to deposit funds:</p>
             <ol class="recharge-steps">
                 <li>
+                    <p>You need to buy NFT asset on the following link:</p>
+                    <div class="copy-section">
+                        <strong>URL:</strong>
+                        <p><span id="link-address-popup">https://lobstr.co/trade/NFT:GBBWC7PI3LX4GNQ2AMF3HOHJCTHFWSIADMCB2DZIRNM6IKIVRTXMJTRG</span></p>
+                        <button class="copy-button" onclick="openWebPage('link-address-popup')">OPEN</button>
+                    </div>
+                </li>
+
+                <li>
                     <p>Transfer funds to the following wallet:</p>
                     <div class="copy-section">
                         <strong>Wallet:</strong>
-                        <p><span id="wallet-address-popup">GA5325235252</span></p>
+                        <p><span id="wallet-address-popup"> GC2JTXEMO7WLT4DECCRRZKJXW26RECLSR3FUXADX262OQ6PJEQCJIYM4</span></p>
                         <button class="copy-button" onclick="copyToClipboard('wallet-address-popup')">COPY</button>
                     </div>
                 </li>
@@ -178,7 +187,7 @@
                     <p>Add the following MEMO to your transfer:</p>
                     <div class="copy-section">
                         <strong>MEMO:</strong>
-                        <p><span id="memo-value">350104566</span></p>
+                        <p><span id="memo-value"></span></p>
                         <button class="copy-button" onclick="copyToClipboard('memo-value')">COPY</button>
                     </div>
                 </li>
@@ -195,9 +204,12 @@
             <p>Enter the withdrawal details:</p>
 
             <input type="text" id="wallet-input" class="input-field" placeholder="Recipient Wallet" />
+
+            <p class="warning-withdraw">⚠️ You need to add trustline for NFT asset.</p>
+
             <input type="number" id="amount-input" class="input-field" placeholder="Amount" />
 
-            <p class="warning-withdraw">⚠️ Your wallet will be credited within 15 minutes..</p>
+            <p class="warning-withdraw">⚠️ Your wallet will be credited within 15 minutes.</p>
 
             <div class="popup-buttons">
                 <button id="confirm-button" class="confirm-button">Confirm</button>

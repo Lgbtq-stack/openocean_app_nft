@@ -63,7 +63,7 @@ function getUserIdFromURL() {
 function updateWalletInfo(nickname, balance) {
     document.getElementById("wallet-address").textContent = `User: ${nickname}`;
     document.getElementById("wallet-balance").innerHTML = `Balance: ${balance} 
-    <img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: sub;">`;
+    <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
 }
 
 async function loadCategoriesOnce(includeAll = false) {
@@ -206,7 +206,7 @@ async function loadTrendingNFTs() {
                         <div class="nft-info-item">📊 <span>${nft.totalBought}</span></div>
                     </div>
                     
-                    <p class="nft-price"><img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: middle;"> ${nft.price}</p>
+                    <p class="nft-price"><img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;"> ${nft.price}</p>
                 </div>
 
                 <div class="nft-button-container">
@@ -250,7 +250,7 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-holders').textContent = `${nft.userCount}`;
         document.getElementById('nft-total-bought').textContent = `${nft.totalBought}`;
         document.getElementById('nft-description').textContent = `${nft.description}`;
-        document.getElementById('nft-price').textContent = `${nft.price}`;
+        document.getElementById('nft-price').innerHTML = `<img src="content/money-icon.png" alt="NFT Icon" style="width: 35px; height: 25px; vertical-align: top">  ${nft.price}`;
 
         const countNFT = document.getElementById("nft-owned-count");
         const nftInfoItem = countNFT.closest(".nft-info-item");
@@ -266,7 +266,7 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-count-display').textContent = `${nftCount}`;
 
         function updateBuyButton(price, count) {
-            buyButton.innerHTML = `Buy NFT: <img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: top"> ${(price * count).toFixed(2)} 
+            buyButton.innerHTML = `Buy NFT: <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: top"> ${(price * count).toFixed(2)} 
             `;
         }
 
@@ -296,7 +296,7 @@ async function showNFTDetails(id, dataSource) {
         buyButton.onclick = () => {
             if(nftCount * nft.price > userDataCache.data.balance)
             {
-                showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 20px; height: 15px; vertical-align: middle;\">!");
+                showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 25px; height: 20px; vertical-align: sub;\">!");
             }
             else {
 
@@ -376,7 +376,7 @@ function displayUserInfo(userData) {
     const nftValueElement = document.getElementById("nft-total-value");
     if (nftValueElement) {
         nftValueElement.innerHTML = `NFT Total Value: ${userData.nft_total_value.toFixed(2)} 
-    <img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: middle;">`;
+    <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle;">`;
     }
 
 }
@@ -437,7 +437,7 @@ function renderPurchasedNFTs(nfts) {
                     </div>
                 </div>
                 <div class="my-nft-card-price">
-                    <p><strong><img src="content/money-icon.png" alt="NFT Icon" style="width: 20px; height: 15px; vertical-align: middle;"></strong> ${nft.price} </p>
+                    <p><strong><img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle;"></strong> ${nft.price} </p>
                 </div>
                 <button class="my-nft-details-button" id="details-${nft.id}">
                     <img class="my-nft-info-icon" src="content/info.png" alt="Info"> Details
@@ -756,7 +756,7 @@ async function loadCategories(page, category) {
                     </div>
 
                     <div class="nft-price-row">
-                        <p><strong>💰 </strong> ${item.price} XLM</p>
+                        <p><img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;"> ${item.price}</p>
                     </div>
                 </div>
 
@@ -834,6 +834,7 @@ const rechargeContent = document.getElementById("recharge-content");
 const withdrawContent = document.getElementById("withdraw-content");
 const walletAddressInput = document.getElementById("wallet-input");
 const amountInput = document.getElementById("amount-input");
+const memoValue = document.getElementById("memo-value");
 
 function openPopup(action) {
     currentAction = action;
@@ -843,6 +844,7 @@ function openPopup(action) {
         popupTitle.textContent = "Recharge";
         rechargeContent.style.display = "block";
         withdrawContent.style.display = "none";
+        memoValue.textContent = user_Id;
     } else if (action === "withdraw") {
         popupTitle.textContent = "Withdraw";
         rechargeContent.style.display = "none";
@@ -850,7 +852,7 @@ function openPopup(action) {
     }
 }
 
-function closePopup() {
+window.closePopup = function() {
     enableScroll();
     popupOverlay.style.display = "none";
 }
@@ -988,13 +990,36 @@ async function handleConfirm() {
     }, 5000);
 }
 
-function copyToClipboard(elementId) {
-    const text = document.getElementById(elementId).textContent;
+window.copyToClipboard = function(elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) {
+        console.error(`Element with ID "${elementId}" not found.`);
+        return;
+    }
+
+    const text = element.textContent.trim();
+
+    if (text.length === 0) {
+        showErrorPopup("warning", "Nothing to copy!");
+        return;
+    }
+
     navigator.clipboard.writeText(text)
-        .then(() => showErrorPopup("warning", "Copied to clipboard"))
-        .catch(() => showErrorPopup("warning", "Failed to copy"));
+        .then(() => showErrorPopup("success", "Copied to clipboard"))
+        .catch((err) => {
+            console.error("Failed to copy text: ", err);
+            showErrorPopup("error", "Failed to copy text. Please try again.");
+        });
 }
 
+window.openWebPage = function(elementId) {
+    const url = document.getElementById(elementId).textContent.trim();
+    if (url) {
+        window.open(url, '_blank');
+    } else {
+        console.error("URL is empty or invalid.");
+    }
+}
 
 document.querySelector(".recharge-button").addEventListener("click", () => openPopup("recharge"));
 document.querySelector(".withdraw-button").addEventListener("click", () => openPopup("withdraw"));
