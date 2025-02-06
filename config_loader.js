@@ -47,6 +47,23 @@ function showSection(sectionId) {
     }
 }
 
+const navItems = document.querySelectorAll('.nav-item');
+
+function setActiveTab(selectedTab) {
+    navItems.forEach(tab => tab.classList.remove('active'));
+    selectedTab.classList.add('active');
+}
+
+navItems.forEach(button => {
+    button.addEventListener('click', () => {
+        setActiveTab(button);
+    });
+
+    button.addEventListener('touchstart', () => {
+        setActiveTab(button);
+    });
+});
+
 function getUserIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     user_Id = urlParams.get("user_id");
