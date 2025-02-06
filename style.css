@@ -195,6 +195,12 @@ h3 {
     padding: 10px 14px;
     border-radius: 20px;
 }
+.nav-links li.active a {
+    background-color: #4285f4; /* Цвет выделения */
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
 
 .nav-links a:focus,
 .nav-links a:active,

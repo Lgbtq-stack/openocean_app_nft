@@ -47,6 +47,20 @@ function showSection(sectionId) {
     }
 }
 
+const navLinks = document.querySelectorAll('.nav-links li a');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        link.focus();
+    });
+
+    link.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        link.focus();
+    });
+});
+
 function getUserIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     user_Id = urlParams.get("user_id");
