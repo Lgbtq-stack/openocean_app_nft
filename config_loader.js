@@ -27,7 +27,7 @@ function showSection(sectionId) {
         console.log(`Section "${sectionId}" is already active. Skipping request.`);
         return;
     }
-    // currentSection = sectionId;
+    currentSection = sectionId;
 
     document.querySelectorAll("section").forEach(section => {
         section.style.display = "none";
