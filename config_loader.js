@@ -51,12 +51,10 @@ const navLinks = document.querySelectorAll('.nav-links li a');
 
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        e.preventDefault();
         link.focus();
     });
 
     link.addEventListener('touchstart', (e) => {
-        e.preventDefault();
         link.focus();
     });
 });
