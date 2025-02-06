@@ -47,22 +47,15 @@ function showSection(sectionId) {
     }
 }
 
-const navItems = document.querySelectorAll('.nav-item');
+function setActiveSection(event, sectionId) {
+    event.preventDefault();
 
-function setActiveTab(selectedTab) {
-    navItems.forEach(tab => tab.classList.remove('active'));
-    selectedTab.classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+
+    event.target.classList.add('active');
+
+    showSection(sectionId);
 }
-
-navItems.forEach(button => {
-    button.addEventListener('click', () => {
-        setActiveTab(button);
-    });
-
-    button.addEventListener('touchstart', () => {
-        setActiveTab(button);
-    });
-});
 
 function getUserIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
