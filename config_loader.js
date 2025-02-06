@@ -47,16 +47,6 @@ function showSection(sectionId) {
     }
 }
 
-function setActiveSection(event, sectionId) {
-    event.preventDefault();
-
-    document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
-
-    event.target.classList.add('active');
-
-    showSection(sectionId);
-}
-
 function getUserIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     user_Id = urlParams.get("user_id");
