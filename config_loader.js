@@ -22,7 +22,7 @@ let userDataCache = {
 
 let categoriesCache = [];
 
-function showSection(sectionId) {
+window.showSection = function(sectionId)  {
     if (currentSection === sectionId) {
         console.log(`Section "${sectionId}" is already active. Skipping request.`);
         return;
@@ -32,22 +32,21 @@ function showSection(sectionId) {
     document.querySelectorAll("section").forEach(section => {
         section.style.display = "none";
     });
-    document.getElementById(sectionId).style.display = "block";
 
+    const section = document.getElementById(sectionId);
+    section.style.display = "block";
 
     if (sectionId === "trendings") {
         loadTrendingNFTs();
     } else if (sectionId === "my-nfts") {
         fetchUserNFTs(user_Id);
-        createMyNFTCategories().then(() => {
-            document.querySelector('.my-nft-category-item').click();
-        });
-    } else if (sectionId === "categories") {
-        loadCategoriesOnce().then(categories => {
-            console.log("Loaded categories:", categories);
-            renderCategories(categories);
-        });
     }
+    // } else if (sectionId === "categories") {
+    //     loadCategoriesOnce().then(categories => {
+    //         console.log("Loaded categories:", categories);
+    //         renderCategories(categories);
+    //     });
+    // }
 }
 
 const navLinks = document.querySelectorAll('.nav-links li a');
@@ -485,7 +484,6 @@ async function createMyNFTCategories() {
     sliderTrack.innerHTML = "";
 
     const categories = await loadCategoriesOnce(true);
-    categories.unshift({ id: "", name: "All" });  
 
     categories.forEach(category => {
         const button = document.createElement("button");
@@ -495,7 +493,11 @@ async function createMyNFTCategories() {
         button.addEventListener("click", () => {
             document.querySelectorAll(".my-nft-category-item").forEach(btn => btn.classList.remove("active"));
             button.classList.add("active");
-            fetchUserNFTs(user_Id, category.id);
+
+            const collectionId = category.id === "" ? "" : category.id;
+            console.log(`Selected category ID: ${collectionId}`);
+
+            fetchUserNFTs(user_Id, collectionId);
         });
 
         sliderTrack.appendChild(button);

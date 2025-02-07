@@ -13,18 +13,18 @@ function startNFTShowcaseAnimation() {
     });
 }
 
-function showSection(sectionId) {
-    document.querySelectorAll("section").forEach(section => {
-        section.style.display = "none";
-    });
-
-    const section = document.getElementById(sectionId);
-    section.style.display = "block";
-
-    if (sectionId === "hero") {
-        startNFTShowcaseAnimation();
-    }
-}
+// function showSection(sectionId) {
+//     document.querySelectorAll("section").forEach(section => {
+//         section.style.display = "none";
+//     });
+//
+//     const section = document.getElementById(sectionId);
+//     section.style.display = "block";
+//
+//     if (sectionId === "hero") {
+//         startNFTShowcaseAnimation();
+//     }
+// }
 
 document.querySelectorAll('.filter-btn').forEach(button => {
     button.addEventListener('click', () => {
