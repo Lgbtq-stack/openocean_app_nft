@@ -76,6 +76,7 @@ function getUserIdFromURL() {
 }
 
 function updateWalletInfo(nickname, balance) {
+
     document.getElementById("wallet-address").textContent = `User: ${nickname}`;
     document.getElementById("wallet-balance").innerHTML = `Balance: ${balance} 
     <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
@@ -316,6 +317,7 @@ async function showNFTDetails(id, dataSource) {
                 showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 25px; height: 20px; vertical-align: sub;\">!");
             }
             else {
+                fetchUserData(user_Id);
 
                 sendDataToTelegramTest(user_Id, nft.id, nftCount);
                 showErrorPopup("success", `You have bought ${nftCount} "${nft.name}" !`);
@@ -1153,6 +1155,14 @@ document.getElementById('refresh-balance-button').addEventListener('click', asyn
         if (data && data.balance !== undefined) {
             document.getElementById('wallet-balance').innerHTML = `<strong>Balance:</strong> ${data.balance.toFixed(2)} 
             <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle">`;
+
+            userDataCache = {
+                data: data,
+                timestamp: new Date().getTime(),
+                ttl: userDataCache.ttl
+            };
+
+            console.log("Updated userDataCache:", userDataCache);
             showErrorPopup("success", "Balance updated successfully!");
         } else {
             showErrorPopup("error", "Invalid response: balance not found.");
@@ -1162,13 +1172,13 @@ document.getElementById('refresh-balance-button').addEventListener('click', asyn
         console.error("Error refreshing balance:", error);
         showErrorPopup("error", "Failed to refresh balance. Try again later.");
     } finally {
-        // Ожидаем 5 секунд перед повторной активацией кнопки
         setTimeout(() => {
             refreshCooldown = false;
             document.getElementById('refresh-balance-button').disabled = false;
         }, 5000);
     }
 });
+
 
 
 async function initializeApp() {
