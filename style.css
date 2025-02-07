@@ -597,14 +597,20 @@ h3 {
 .buy-nft-button {
     background-color: var(--accent-color);
     color: var(--text-color);
-    padding: 15px 20px 5px 20px;
+    padding: 15px 20px;
     font-size: 1.3em;
     font-weight: bold;
     border-radius: 20px;
     border: none;
     cursor: pointer;
     width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
+
 
 .close-panel {
     position: absolute;

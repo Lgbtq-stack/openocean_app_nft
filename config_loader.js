@@ -279,8 +279,9 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-count-display').textContent = `${nftCount}`;
 
         function updateBuyButton(price, count) {
-            buyButton.innerHTML = `Buy NFT: <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: top"> ${(price * count).toFixed(2)} 
-            `;
+            buyButton.innerHTML = `Buy NFT: 
+        <img src="content/money-icon.png" alt="NFT Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
+        ${(price * count).toFixed(2)}`;
         }
 
         let buyButton = document.querySelector('.buy-nft-button');
@@ -1104,7 +1105,7 @@ function showErrorPopup(type, message) {
         errorTitle.textContent = "✅ Success";
     }
 
-    errorMessage.textContent = message;
+    errorMessage.innerHTML = message;
     errorPopup.style.display = "flex";
 }
 
