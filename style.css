@@ -697,9 +697,9 @@ h3 {
     justify-content: center;
     gap: 8px;
     color: var(--text-color);
-    font-size: 16px;
-    padding-right: 15px;
-    margin: 0 10px;
+    font-size: 14px;
+    padding-right: 10px;
+    margin: 0 5px;
     border-right: 1px solid #ffffff30;
 }
 
