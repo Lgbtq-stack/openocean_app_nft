@@ -89,6 +89,23 @@ h3 {
     color: var(--text-color);
 }
 
+.refresh-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.refresh-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.refresh-icon {
+    width: 15px;
+    height: 15px;
+}
+
 .button-group {
     display: flex;
     gap: 10px;

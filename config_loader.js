@@ -39,6 +39,9 @@ function showSection(sectionId) {
         loadTrendingNFTs();
     } else if (sectionId === "my-nfts") {
         fetchUserNFTs(user_Id);
+        createMyNFTCategories().then(() => {
+            document.querySelector('.my-nft-category-item').click();
+        });
     } else if (sectionId === "categories") {
         loadCategoriesOnce().then(categories => {
             console.log("Loaded categories:", categories);
@@ -241,6 +244,7 @@ async function loadTrendingNFTs() {
         console.log("Trending NFTs and cards successfully loaded and rendered.");
     } catch (error) {
         console.error("Error loading trending NFTs:", error);
+        // Автоматически активируем категорию "All"
     }
 }
 
@@ -481,6 +485,7 @@ async function createMyNFTCategories() {
     sliderTrack.innerHTML = "";
 
     const categories = await loadCategoriesOnce(true);
+    categories.unshift({ id: "", name: "All" });  
 
     categories.forEach(category => {
         const button = document.createElement("button");
@@ -490,11 +495,7 @@ async function createMyNFTCategories() {
         button.addEventListener("click", () => {
             document.querySelectorAll(".my-nft-category-item").forEach(btn => btn.classList.remove("active"));
             button.classList.add("active");
-
-            const collectionId = category.id === "" ? "" : category.id;
-            console.log(`Selected category ID: ${collectionId}`);
-
-            fetchUserNFTs(user_Id, collectionId);
+            fetchUserNFTs(user_Id, category.id);
         });
 
         sliderTrack.appendChild(button);
@@ -502,6 +503,7 @@ async function createMyNFTCategories() {
 
     initializeNFTSlider();
 }
+
 
 function initializeNFTSlider() {
     const sliderWrapper = document.querySelector(".nft-slider-wrapper");
@@ -1125,6 +1127,47 @@ function disableScroll() {
 function enableScroll() {
     document.body.classList.remove('no-scroll');
 }
+
+let refreshCooldown = false;
+
+document.getElementById('refresh-balance-button').addEventListener('click', async () => {
+    if (refreshCooldown) {
+        showErrorPopup("warning", "Please wait before refreshing again.");
+        return;
+    }
+
+    try {
+        refreshCooldown = true;
+        document.getElementById('refresh-balance-button').disabled = true;
+
+        const response = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch balance: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data && data.balance !== undefined) {
+            document.getElementById('wallet-balance').innerHTML = `<strong>Balance:</strong> ${data.balance.toFixed(2)} 
+            <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle">`;
+            showErrorPopup("success", "Balance updated successfully!");
+        } else {
+            showErrorPopup("error", "Invalid response: balance not found.");
+        }
+
+    } catch (error) {
+        console.error("Error refreshing balance:", error);
+        showErrorPopup("error", "Failed to refresh balance. Try again later.");
+    } finally {
+        // Ожидаем 5 секунд перед повторной активацией кнопки
+        setTimeout(() => {
+            refreshCooldown = false;
+            document.getElementById('refresh-balance-button').disabled = false;
+        }, 5000);
+    }
+});
+
 
 async function initializeApp() {
     const userId = getUserIdFromURL();

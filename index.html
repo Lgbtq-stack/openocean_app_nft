@@ -108,7 +108,12 @@
 <div class="bottom-panel">
     <div class="wallet-info">
         <p class="wallet-address" id="wallet-address"><strong>Wallet:</strong></p>
-        <p class="wallet-balance" id="wallet-balance"><strong>Balance:</strong></p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <p class="wallet-balance" id="wallet-balance"><strong>Balance:</strong></p>
+            <button id="refresh-balance-button" class="refresh-button" title="Refresh Balance">
+                <img src="content/refresh.png" alt="Refresh" class="refresh-icon">
+            </button>
+        </div>
     </div>
 
     <div class="button-group">
