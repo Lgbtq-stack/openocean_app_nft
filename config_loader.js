@@ -2,7 +2,7 @@
 // import {get_config} from "./backend/datacontoller";
 
 //walletTest = GAJDSJBEXLSF6K4D774YMQOLDIVTCEDMQVM3RCXWWHJN4PZ24JYZYD3B
-// const user_Id = "350104566";
+// const user_Id = "488916773";
 let user_Id = null;
 
 let currentSection = null;
@@ -311,16 +311,23 @@ async function showNFTDetails(id, dataSource) {
             }
         };
 
-        buyButton.onclick = () => {
-            if(nftCount * nft.price > userDataCache.data.balance)
-            {
-                showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 25px; height: 20px; vertical-align: sub;\">!");
-            }
-            else {
-                fetchUserData(user_Id);
+        buyButton.onclick = async () => {
+            await refreshUserBalance(false);
 
-                sendDataToTelegramTest(user_Id, nft.id, nftCount);
+            const totalCost = nftCount * nft.price;
+            const currentBalance = userDataCache.data.balance;
+
+            console.log("Total cost:", totalCost);
+            console.log("Current balance:", currentBalance);
+
+            if (totalCost > currentBalance) {
+                showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 25px; height: 20px; vertical-align: sub;\">!");
+            } else {
+                await sendDataToTelegramTest(user_Id, nft.id, nftCount);
                 showErrorPopup("success", `You have bought ${nftCount} "${nft.name}" !`);
+
+                // Обновляем баланс после покупки
+                await refreshUserBalance(false);
             }
         };
 
@@ -1134,9 +1141,11 @@ function enableScroll() {
 
 let refreshCooldown = false;
 
-document.getElementById('refresh-balance-button').addEventListener('click', async () => {
+async function refreshUserBalance(showPopup = true) {
     if (refreshCooldown) {
-        showErrorPopup("warning", "Please wait before refreshing again.");
+        if (showPopup) {
+            showErrorPopup("warning", "Please wait before refreshing again.");
+        }
         return;
     }
 
@@ -1163,23 +1172,29 @@ document.getElementById('refresh-balance-button').addEventListener('click', asyn
             };
 
             console.log("Updated userDataCache:", userDataCache);
-            showErrorPopup("success", "Balance updated successfully!");
+            if (showPopup) {
+                showErrorPopup("success", "Balance updated successfully!");
+            }
         } else {
-            showErrorPopup("error", "Invalid response: balance not found.");
+            if (showPopup) {
+                showErrorPopup("error", "Invalid response: balance not found.");
+            }
         }
 
     } catch (error) {
         console.error("Error refreshing balance:", error);
-        showErrorPopup("error", "Failed to refresh balance. Try again later.");
+        if (showPopup) {
+            showErrorPopup("error", "Failed to refresh balance. Try again later.");
+        }
     } finally {
         setTimeout(() => {
             refreshCooldown = false;
             document.getElementById('refresh-balance-button').disabled = false;
         }, 5000);
     }
-});
+}
 
-
+document.getElementById('refresh-balance-button').addEventListener('click', () => refreshUserBalance(true));
 
 async function initializeApp() {
     const userId = getUserIdFromURL();
