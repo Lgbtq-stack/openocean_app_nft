@@ -328,6 +328,9 @@ async function showNFTDetails(id, dataSource) {
 
                 // Обновляем баланс после покупки
                 await refreshUserBalance(false);
+                await fetchUserNFTs(user_Id);
+                closeNFTDetails();
+
             }
         };
 
