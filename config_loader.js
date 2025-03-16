@@ -75,10 +75,10 @@ function getUserIdFromURL() {
     }
 }
 
-function updateWalletInfo(nickname, balance) {
+function updateWalletInfo(nickname, balance, balance_bonus) {
 
     document.getElementById("wallet-address").textContent = `User: ${nickname}`;
-    document.getElementById("wallet-balance").innerHTML = `Balance: ${balance} 
+    document.getElementById("wallet-balance").innerHTML = `Balance: ${balance + balance_bonus} 
     <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
 }
 
@@ -315,7 +315,7 @@ async function showNFTDetails(id, dataSource) {
             await refreshUserBalance(false);
 
             const totalCost = nftCount * nft.price;
-            const currentBalance = userDataCache.data.balance;
+            const currentBalance = userDataCache.data.balance + userDataCache.data.balance_bonus;
 
             console.log("Total cost:", totalCost);
             console.log("Current balance:", currentBalance);
@@ -352,7 +352,7 @@ async function sendDataToTelegramTest(user_id, nft_id, count) {
         const result = await response.json();
         console.log("NFT purchase successful:", result);
 
-        updateWalletInfo(result.nickname, result.balance);
+        updateWalletInfo(result.nickname, result.balance, result.balance_bonus);
 
     } catch (error) {
         console.error("Error during NFT purchase:", error);
@@ -400,7 +400,7 @@ async function fetchUserData(userId) {
 }
 
 function displayUserInfo(userData) {
-    updateWalletInfo(userData.nickname, userData.balance);
+    updateWalletInfo(userData.nickname, userData.balance, userData.balance_bonus);
 
     const nftValueElement = document.getElementById("nft-total-value");
     if (nftValueElement) {
@@ -1128,7 +1128,6 @@ function showErrorPopup(type, message) {
 function closeErrorPopup() {
     errorPopup.style.display = "none";
     enableScroll();
-
 }
 
 closeErrorPopupButton.addEventListener("click", closeErrorPopup);
