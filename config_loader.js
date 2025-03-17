@@ -314,8 +314,16 @@ async function showNFTDetails(id, dataSource) {
         buyButton.onclick = async () => {
             await refreshUserBalance(false);
 
+            const response = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);
+            if (!response.ok) {
+                showErrorPopup("error", "Balance error.");
+                return;
+            }
+
+            const userData = await response.json();
+            const currentBalance = userData.balance + userData.balance_bonus;
+
             const totalCost = nftCount * nft.price;
-            const currentBalance = userDataCache.data.balance + userDataCache.data.balance_bonus;
 
             console.log("Total cost:", totalCost);
             console.log("Current balance:", currentBalance);
@@ -326,13 +334,12 @@ async function showNFTDetails(id, dataSource) {
                 await sendDataToTelegramTest(user_Id, nft.id, nftCount);
                 showErrorPopup("success", `You have bought ${nftCount} "${nft.name}" !`);
 
-                // Обновляем баланс после покупки
                 await refreshUserBalance(false);
                 await fetchUserNFTs(user_Id);
                 closeNFTDetails();
-
             }
         };
+
 
         document.querySelector('.close-panel').onclick = closeNFTDetails;
         document.getElementById('nftDetailsPanel').classList.add('show');
@@ -1163,8 +1170,11 @@ async function refreshUserBalance(showPopup = true) {
 
         const data = await response.json();
 
+        let totalBalance;
+        totalBalance = data.balance + data.balance_bonus;
+
         if (data && data.balance !== undefined) {
-            document.getElementById('wallet-balance').innerHTML = `<strong>Balance:</strong> ${data.balance.toFixed(2)} 
+            document.getElementById('wallet-balance').innerHTML = `<strong>Balance:</strong> ${totalBalance.toFixed(2)} 
             <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle">`;
 
             userDataCache = {
