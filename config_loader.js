@@ -273,53 +273,16 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-description').textContent = `${nft.description}`;
         document.getElementById('nft-price').innerHTML = `<img src="content/money-icon.png" alt="NFT Icon" style="width: 35px; height: 25px; vertical-align: top">  ${nft.price}`;
 
-        const countNFT = document.getElementById("nft-owned-count");
-        const nftInfoItem = countNFT.closest(".nft-info-item");
-
-        if (nft.count > 0) {
-            nftInfoItem.style.display = "flex";
-            countNFT.textContent = nft.count;
-        } else {
-            nftInfoItem.style.display = "none";
-        }
-
         let nftCount = 1;
         document.getElementById('nft-count-display').textContent = `${nftCount}`;
 
         function updateBuyButton(price, count) {
-            buyButton.innerHTML = `<img src="content/money-icon.png" alt="NFT Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
-                ${(price * count).toFixed(2)}`;
-
-            buyButton1.innerHTML = `<img src="content/nft_extra.png" alt="NFT Extra Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
-                ${count.toFixed(2)}`;
+            document.getElementById('buy-nft-price').textContent = (price * count).toFixed(2);
+            document.getElementById('buy-nft-extra-price').textContent = count.toFixed(2);
         }
-
-        const panelContent = document.querySelector('.panel-content');
-
-        let containerBuyButtons = document.querySelector('.container-buy-buttons');
-
-        if (!containerBuyButtons) {
-            containerBuyButtons = document.createElement('div');
-            containerBuyButtons.classList.add('container-buy-buttons');
-            panelContent.appendChild(containerBuyButtons);
-        } else {
-            containerBuyButtons.innerHTML = "";
-        }
-
-        // Создаём кнопки
-        let buyButton = document.createElement('button');
-        buyButton.classList.add('buy-nft-button');
-
-        let buyButton1 = document.createElement('button');
-        buyButton1.classList.add('buy-nft-button-extra');
-
-        // Добавляем кнопки в контейнер
-        containerBuyButtons.appendChild(buyButton);
-        containerBuyButtons.appendChild(buyButton1);
 
         updateBuyButton(nft.price, nftCount);
 
-        // Обработчики увеличения/уменьшения количества
         document.getElementById('increase-count').onclick = () => {
             nftCount++;
             document.getElementById('nft-count-display').textContent = nftCount;
@@ -334,8 +297,7 @@ async function showNFTDetails(id, dataSource) {
             }
         };
 
-        // Обработчик покупки за основную валюту
-        buyButton.onclick = async () => {
+        document.querySelector('.buy-nft-button').onclick = async () => {
             await refreshUserBalance(false);
 
             const response = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);
@@ -360,8 +322,7 @@ async function showNFTDetails(id, dataSource) {
             }
         };
 
-        // Обработчик покупки за вторую валюту (extra)
-        buyButton1.onclick = async () => {
+        document.querySelector('.buy-nft-button-extra').onclick = async () => {
             await refreshUserBalance(false);
 
             const response = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);

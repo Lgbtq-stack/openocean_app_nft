@@ -72,7 +72,7 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px 40px 20px;
+    padding: 10px 20px 17px 20px;
     background-color: var(--secondary-bg-color);
     border-top: 2px solid var(--accent-color);
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -509,7 +509,7 @@ h3 {
     width: 90vw;
     max-width: 500px;
     height: 95%;
-    max-height: 670px;
+    max-height: 700px;
     padding: 20px;
     background-color: var(--secondary-bg-color);
     border-radius: 15px;
@@ -652,12 +652,13 @@ h3 {
     width: 100%;
     max-width: 100%;
     gap: 10px;
+    margin-top: auto;
 }
 
 .buy-nft-button, .buy-nft-button-extra {
     flex: 1;
     max-width: 100%;
-    padding: 15px 20px;
+    padding: 5px 10px;
     font-size: 1.2em;
     font-weight: bold;
     border-radius: 20px;
@@ -680,6 +681,12 @@ h3 {
     background-color: #f97c16;
     color: #ffffff;
 }
+
+.buy-nft-button img, .buy-nft-button-extra img {
+    width: 30px;
+    height: 30px;
+}
+
 
 @media (max-width: 480px) {
     .panel-content {
@@ -728,8 +735,8 @@ h3 {
     }
 
     .buy-nft-button img, .buy-nft-button-extra img {
-        width: 20px;
-        height: 20px;
+        width: 30px;
+        height: 30px;
     }
 }
 
