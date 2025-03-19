@@ -505,12 +505,20 @@ h3 {
 }
 
 .panel-content {
+
     position: relative;
-    padding: 20px;
-    border-radius: 10px;
     width: 90vw;
     max-width: 500px;
-    max-height: 90vh;
+    max-height: 95vh;
+    height: 75%;
+    padding: 20px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .panel-content img {
@@ -518,6 +526,14 @@ h3 {
     height: auto;
     margin-bottom: 15px;
     border-radius: 8px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
 }
 
 .nft-info {
@@ -606,7 +622,7 @@ h3 {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin: 20px 0 25px 0;
+    margin: 20px 0 0 0;
 }
 
 .count-button {
@@ -633,17 +649,16 @@ h3 {
 .container-buy-buttons {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 100%; /* Подстраиваемся под ширину панели */
-    max-width: 100%; /* Чтобы кнопки не выходили за границы */
+    width: 100%;
+    max-width: 100%;
     gap: 10px;
 }
 
 .buy-nft-button, .buy-nft-button-extra {
-    flex: 1; /* Теперь кнопки подстраиваются под ширину панели */
-    max-width: 100%; /* Не выходят за границы */
+    flex: 1;
+    max-width: 100%;
     padding: 15px 20px;
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: bold;
     border-radius: 20px;
     border: none;
@@ -651,7 +666,7 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     min-height: 50px;
     white-space: nowrap;
 }
@@ -667,8 +682,43 @@ h3 {
 }
 
 @media (max-width: 480px) {
+    .panel-content {
+        width: 100vw;
+        max-width: 350px;
+        max-height: 100vh;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .nft-title {
+        font-size: 1.1em;
+    }
+
+    .nft-info-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .nft-info-item {
+        font-size: 0.9em;
+    }
+
+    .nft-price-row img {
+        width: 18px;
+        height: 14px;
+    }
+
+    .count-container {
+        gap: 5px;
+    }
+
+    .count-button {
+        padding: 8px 10px;
+        font-size: 1em;
+    }
+
     .container-buy-buttons {
-        flex-direction: row; /* Чтобы кнопки оставались в строку */
+        flex-direction: row;
         gap: 5px;
     }
 
@@ -841,46 +891,10 @@ h3 {
         align-items: flex-start;
         gap: 10px;
     }
-
-    .panel-content {
-        padding: 15px;
-        gap: 12px;
-
-        max-height: 85vh;
-    }
-
-    .panel-content h2 {
-        font-size: 1.5rem;
-    }
-
-    .panel-content p {
-        font-size: 1rem;
-    }
-
-
-    .close-panel {
-        font-size: 16px;
-        width: 28px;
-        height: 28px;
-    }
 }
 
 @media (max-width: 480px) {
-    .panel-content {
-        max-height: 65vh;
 
-        padding: 10px;
-        gap: 8px;
-    }
-
-    .panel-content h2 {
-        font-size: 1.2rem;
-    }
-
-    .panel-content p {
-        font-size: 1em;
-        text-transform: capitalize;
-    }
 
     .close-panel {
         font-size: 14px;
