@@ -107,14 +107,21 @@
 
 <div class="bottom-panel">
     <div class="wallet-info">
-        <p class="wallet-address" id="wallet-address"><strong>Wallet:</strong></p>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <p class="wallet-balance" id="wallet-balance"><strong>Balance:</strong></p>
-            <button id="refresh-balance-button" class="refresh-button" title="Refresh Balance">
-                <img src="content/refresh.png" alt="Refresh" class="refresh-icon">
-            </button>
+        <div class="wallet-column">
+            <p class="wallet-address" id="wallet-address"><strong>User:</strong></p>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <p class="wallet-balance" id="wallet-balance"><strong>Balance:</strong></p>
+                <button id="refresh-balance-button" class="refresh-button" title="Refresh Balance">
+                    <img src="content/refresh.png" alt="Refresh" class="refresh-icon">
+                </button>
+            </div>
+        </div>
+        <div class="wallet-column">
+            <p class="user_level" id="user-level"><strong>Level:</strong></p>
+            <p class="balance_extra" id="balance_extra"><strong>Extra Balance:</strong></p>
         </div>
     </div>
+
 
     <div class="button-group">
         <button class="recharge-button">Recharge</button>
@@ -148,7 +155,7 @@
         </div>
 
         <div class="nft-price-row">
-            <p><span id="nft-price">37.22 NFT</span></p>
+            <p><span id="nft-price"><img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; position: relative; top: 20px;">37.22 NFT</span></p>
         </div>
 
         <div class="count-container">

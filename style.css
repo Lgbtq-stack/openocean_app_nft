@@ -83,10 +83,16 @@ h3 {
 }
 
 .wallet-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    color: var(--text-color);
+}
+
+.wallet-column {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    color: var(--text-color);
 }
 
 .refresh-button {
@@ -610,22 +616,39 @@ h3 {
     color: var(--text-color);
 }
 
+.container-buy-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-top: 15px;
+}
 
-.buy-nft-button {
-    background-color: var(--accent-color);
-    color: var(--text-color);
+.buy-nft-button, .buy-nft-button-extra {
+    flex: 1;
     padding: 15px 20px;
     font-size: 1.3em;
     font-weight: bold;
     border-radius: 20px;
     border: none;
     cursor: pointer;
-    width: 100%;
-
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    min-height: 50px;
+    white-space: nowrap;
+}
+
+.buy-nft-button {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+.buy-nft-button-extra {
+    background-color: #f97c16;
+    color: #ffffff;
 }
 
 
@@ -1188,24 +1211,24 @@ footer {
         font-size: 0.85rem;
     }
 
-    .bottom-panel {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 10px 25px 10px;
-        width: 100%;
-        background-color: #5a5a5a;
-        border-top: 3px solid var(--accent-color);
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-    }
+    /*.bottom-panel {*/
+    /*    display: flex;*/
+    /*    justify-content: space-between;*/
+    /*    align-items: center;*/
+    /*    padding: 15px 10px 25px 10px;*/
+    /*    width: 100%;*/
+    /*    background-color: #5a5a5a;*/
+    /*    border-top: 3px solid var(--accent-color);*/
+    /*    border-top-left-radius: 20px;*/
+    /*    border-top-right-radius: 20px;*/
+    /*}*/
 
-    .wallet-info {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        color: var(--text-color);
-    }
+    /*.wallet-info {*/
+    /*    display: flex;*/
+    /*    flex-direction: column;*/
+    /*    gap: 5px;*/
+    /*    color: var(--text-color);*/
+    /*}*/
 
     .button-group {
         display: flex;
@@ -1432,7 +1455,6 @@ footer {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-
 }
 
 .copy-section strong {

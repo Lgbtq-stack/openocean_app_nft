@@ -75,11 +75,14 @@ function getUserIdFromURL() {
     }
 }
 
-function updateWalletInfo(nickname, balance, balance_bonus) {
+function updateWalletInfo(nickname, balance, balance_bonus, level, extra_balance) {
 
     document.getElementById("wallet-address").textContent = `User: ${nickname}`;
-    document.getElementById("wallet-balance").innerHTML = `Balance: ${balance + balance_bonus} 
+    document.getElementById("wallet-balance").innerHTML = `Balance: ${balance + balance_bonus}
     <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
+    document.getElementById("user-level").innerHTML = `Level: ${level}`;
+    document.getElementById("balance_extra").innerHTML = `Extra Balance: ${extra_balance}
+    <img src="content/nft_extra.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
 }
 
 async function loadCategoriesOnce(includeAll = false) {
@@ -283,20 +286,41 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-count-display').textContent = `${nftCount}`;
 
         function updateBuyButton(price, count) {
-            buyButton.innerHTML = `Buy NFT: 
-        <img src="content/money-icon.png" alt="NFT Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
-        ${(price * count).toFixed(2)}`;
+            buyButton.innerHTML = `Price: 
+                <img src="content/money-icon.png" alt="NFT Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
+                ${(price * count).toFixed(2)}`;
+
+            buyButton1.innerHTML = `Price: 
+                <img src="content/nft_extra.png" alt="NFT Extra Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
+                ${count.toFixed(2)}`;
         }
 
-        let buyButton = document.querySelector('.buy-nft-button');
-        if (!buyButton) {
-            buyButton = document.createElement('button');
-            buyButton.classList.add('buy-nft-button');
-            document.querySelector('.panel-content').appendChild(buyButton);
+        const panelContent = document.querySelector('.panel-content');
+
+        let containerBuyButtons = document.querySelector('.container-buy-buttons');
+
+        if (!containerBuyButtons) {
+            containerBuyButtons = document.createElement('div');
+            containerBuyButtons.classList.add('container-buy-buttons');
+            panelContent.appendChild(containerBuyButtons);
+        } else {
+            containerBuyButtons.innerHTML = "";
         }
+
+        // Создаём кнопки
+        let buyButton = document.createElement('button');
+        buyButton.classList.add('buy-nft-button');
+
+        let buyButton1 = document.createElement('button');
+        buyButton1.classList.add('buy-nft-button-extra');
+
+        // Добавляем кнопки в контейнер
+        containerBuyButtons.appendChild(buyButton);
+        containerBuyButtons.appendChild(buyButton1);
 
         updateBuyButton(nft.price, nftCount);
 
+        // Обработчики увеличения/уменьшения количества
         document.getElementById('increase-count').onclick = () => {
             nftCount++;
             document.getElementById('nft-count-display').textContent = nftCount;
@@ -311,6 +335,7 @@ async function showNFTDetails(id, dataSource) {
             }
         };
 
+        // Обработчик покупки за основную валюту
         buyButton.onclick = async () => {
             await refreshUserBalance(false);
 
@@ -322,11 +347,7 @@ async function showNFTDetails(id, dataSource) {
 
             const userData = await response.json();
             const currentBalance = userData.balance + userData.balance_bonus;
-
             const totalCost = nftCount * nft.price;
-
-            console.log("Total cost:", totalCost);
-            console.log("Current balance:", currentBalance);
 
             if (totalCost > currentBalance) {
                 showErrorPopup("error", "You don't have enough <img src=\"content/money-icon.png\" alt=\"NFT Icon\" style=\"width: 25px; height: 20px; vertical-align: sub;\">!");
@@ -340,6 +361,30 @@ async function showNFTDetails(id, dataSource) {
             }
         };
 
+        // Обработчик покупки за вторую валюту (extra)
+        buyButton1.onclick = async () => {
+            await refreshUserBalance(false);
+
+            const response = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);
+            if (!response.ok) {
+                showErrorPopup("error", "Balance error.");
+                return;
+            }
+
+            const userData = await response.json();
+            const currentBalance = userData.balance_extra;
+
+            if (nftCount > currentBalance) {
+                showErrorPopup("error", "You don't have enough <img src=\"content/nft_extra.png\" alt=\"NFT Extra Icon\" style=\"width: 25px; height: 20px; vertical-align: sub;\">!");
+            } else {
+                await sendDataToTelegramExtra(user_Id, nft.id, nftCount);
+                showErrorPopup("success", `You have bought ${nftCount} "${nft.name}" !`);
+
+                await refreshUserBalance(false);
+                await fetchUserNFTs(user_Id);
+                closeNFTDetails();
+            }
+        };
 
         document.querySelector('.close-panel').onclick = closeNFTDetails;
         document.getElementById('nftDetailsPanel').classList.add('show');
@@ -359,7 +404,26 @@ async function sendDataToTelegramTest(user_id, nft_id, count) {
         const result = await response.json();
         console.log("NFT purchase successful:", result);
 
-        updateWalletInfo(result.nickname, result.balance, result.balance_bonus);
+        updateWalletInfo(result.nickname, result.balance, result.balance_bonus, result.level, result.balance_extra);
+
+    } catch (error) {
+        console.error("Error during NFT purchase:", error);
+    }
+
+}
+
+async function sendDataToTelegramExtra(user_id, nft_id, count) {
+    try {
+        const apiUrl = `https://miniappservcc.com/api/nft/buyEx?uid=${user_id}&nft_id=${nft_id}&count=${count}`;
+        const response = await fetch(apiUrl, {
+            method: "GET"
+        });
+
+        if (!response.ok) throw new Error(`Failed to buy NFT: ${response.status}`);
+        const result = await response.json();
+        console.log("NFT purchase successful:", result);
+
+        updateWalletInfo(result.nickname, result.balance, result.balance_bonus, result.level, result.balance_extra);
 
     } catch (error) {
         console.error("Error during NFT purchase:", error);
@@ -378,12 +442,12 @@ async function fetchUserData(userId) {
     try {
         const currentTime = new Date().getTime();
 
-        if (userDataCache.data && (currentTime - userDataCache.timestamp) < userDataCache.ttl) {
-            console.log("Using cached data");
-            displayUserInfo(userDataCache.data);
-            console.log(userDataCache.data);
-            return userDataCache.data;
-        }
+        // if (userDataCache.data && (currentTime - userDataCache.timestamp) < userDataCache.ttl) {
+        //     console.log("Using cached data");
+        //     displayUserInfo(userDataCache.data);
+        //     console.log(userDataCache.data);
+        //     return userDataCache.data;
+        // }
 
         const apiUrl = `https://miniappservcc.com/api/user?uid=${userId}`;
         const response = await fetch(apiUrl);
@@ -407,14 +471,12 @@ async function fetchUserData(userId) {
 }
 
 function displayUserInfo(userData) {
-    updateWalletInfo(userData.nickname, userData.balance, userData.balance_bonus);
-
     const nftValueElement = document.getElementById("nft-total-value");
     if (nftValueElement) {
         nftValueElement.innerHTML = `NFT Total Value: ${userData.nft_total_value.toFixed(2)} 
     <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle;">`;
     }
-
+    updateWalletInfo(userData.nickname, userData.balance, userData.balance_bonus, userData.level, userData.balance_extra);
 }
 
 async function fetchUserNFTs(userId, collectionId = "", page = 1, limit = 5) {
@@ -1209,9 +1271,10 @@ async function refreshUserBalance(showPopup = true) {
 document.getElementById('refresh-balance-button').addEventListener('click', () => refreshUserBalance(true));
 
 async function initializeApp() {
-    const userId = getUserIdFromURL();
-    user_Id = userId;
-    if (!userId) {
+    user_Id = getUserIdFromURL();
+    // user_Id = 488916773;
+
+    if (!user_Id) {
         showErrorPopup("error", "User ID is missing in the URL.");
         return;
     }
