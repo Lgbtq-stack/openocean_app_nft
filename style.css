@@ -1459,6 +1459,8 @@ footer {
     align-items: center;
     z-index: 1000;
 
+    pointer-events: none;  /* Игнорируем события на бэкграунде */
+
 }
 
 .popup-content {
@@ -1472,6 +1474,8 @@ footer {
     border-bottom: 2px solid var(--accent-color);
     border-top: 2px solid var(--accent-color);
     color: var(--text-color);
+
+    pointer-events: auto;
 }
 
 .popup-content h2 {
@@ -1622,6 +1626,8 @@ footer {
     z-index: 1001;
     justify-content: center;
     align-items: center;
+
+    pointer-events: none;
 }
 
 .error-popup-content {
@@ -1633,6 +1639,8 @@ footer {
     border-radius: 20px;
     width: 400px;
     text-align: center;
+
+    pointer-events: auto;
 }
 
 .error-popup-content h2 {
