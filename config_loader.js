@@ -251,6 +251,7 @@ async function loadTrendingNFTs() {
     }
 }
 
+
 async function showNFTDetails(id, dataSource) {
     try {
         disableScroll();

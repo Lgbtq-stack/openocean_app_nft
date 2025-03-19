@@ -4,6 +4,7 @@ import StellarSdk from 'https://cdn.jsdelivr.net/npm/@stellar/stellar-sdk/+esm';
 
 const server = new StellarSdk.Horizon.Server("https://horizon.stellar.org");
 
+
 export async function getAccountBalance(wallet_address) {
     try {
 

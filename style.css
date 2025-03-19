@@ -505,12 +505,11 @@ h3 {
 }
 
 .panel-content {
-
     position: relative;
     width: 90vw;
     max-width: 500px;
-    max-height: 95vh;
-    height: 75%;
+    height: 95%;
+    max-height: 670px;
     padding: 20px;
     background-color: var(--secondary-bg-color);
     border-radius: 15px;
@@ -519,6 +518,7 @@ h3 {
     flex-direction: column;
     align-items: center;
     gap: 15px;
+
 }
 
 .panel-content img {
@@ -685,7 +685,6 @@ h3 {
     .panel-content {
         width: 100vw;
         max-width: 350px;
-        max-height: 100vh;
         padding: 10px;
         border-radius: 10px;
     }

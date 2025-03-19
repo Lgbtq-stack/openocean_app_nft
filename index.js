@@ -13,6 +13,7 @@ function startNFTShowcaseAnimation() {
     });
 }
 
+
 // function showSection(sectionId) {
 //     document.querySelectorAll("section").forEach(section => {
 //         section.style.display = "none";
