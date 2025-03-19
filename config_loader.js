@@ -286,12 +286,10 @@ async function showNFTDetails(id, dataSource) {
         document.getElementById('nft-count-display').textContent = `${nftCount}`;
 
         function updateBuyButton(price, count) {
-            buyButton.innerHTML = `Price: 
-                <img src="content/money-icon.png" alt="NFT Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
+            buyButton.innerHTML = `<img src="content/money-icon.png" alt="NFT Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
                 ${(price * count).toFixed(2)}`;
 
-            buyButton1.innerHTML = `Price: 
-                <img src="content/nft_extra.png" alt="NFT Extra Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
+            buyButton1.innerHTML = `<img src="content/nft_extra.png" alt="NFT Extra Icon" style="width: 30px; height: 25px; position: relative; top: 5px;">
                 ${count.toFixed(2)}`;
         }
 
