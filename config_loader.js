@@ -943,11 +943,13 @@ const withdrawContent = document.getElementById("withdraw-content");
 const walletAddressInput = document.getElementById("wallet-input");
 const amountInput = document.getElementById("amount-input");
 const memoValue = document.getElementById("memo-value");
+const nftImages = document.getElementById("hero-content");
 
 function openPopup(action) {
     currentAction = action;
     popupOverlay.style.display = "flex";
 
+    nftImages.style.display = "none";
     if (action === "recharge") {
         popupTitle.textContent = "Recharge";
         rechargeContent.style.display = "block";
@@ -963,17 +965,19 @@ function openPopup(action) {
 window.closePopup = function() {
     enableScroll();
     popupOverlay.style.display = "none";
+    nftImages.style.display = "block";
+
 }
 
 walletAddressInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        walletAddressInput.blur(); // Скрыть клавиатуру
+        walletAddressInput.blur();
     }
 });
 
 amountInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        amountInput.blur(); // Скрыть клавиатуру
+        amountInput.blur();
     }
 });
 
