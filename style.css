@@ -86,24 +86,29 @@ h3 {
 .wallet-info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    flex: 1;
     gap: 20px;
+    min-width: 0;
     color: var(--text-color);
-    flex-wrap: nowrap; /* Запрещаем перенос элементов */
+    flex-wrap: nowrap;
 }
 
 .wallet-column {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    flex-wrap: nowrap; /* Запрещаем перенос элементов */
+    flex-wrap: nowrap;
+}
+
+.balance_extra, .user_level {
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 .refresh-button {
-    background-color: transparent;
     border: none;
+    background: transparent;
     cursor: pointer;
-
-    flex-wrap: nowrap; /* Запрещаем перенос элементов */
 }
 
 .refresh-button:disabled {
@@ -118,6 +123,8 @@ h3 {
 
 .button-group {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     gap: 10px;
 }
 
@@ -501,6 +508,9 @@ h3 {
     position: relative;
     padding: 20px;
     border-radius: 10px;
+    width: 90vw;
+    max-width: 500px;
+    max-height: 90vh;
 }
 
 .panel-content img {
@@ -624,13 +634,14 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Подстраиваемся под ширину панели */
+    max-width: 100%; /* Чтобы кнопки не выходили за границы */
     gap: 10px;
-    margin-top: 15px;
 }
 
 .buy-nft-button, .buy-nft-button-extra {
-    flex: 1;
+    flex: 1; /* Теперь кнопки подстраиваются под ширину панели */
+    max-width: 100%; /* Не выходят за границы */
     padding: 15px 20px;
     font-size: 1.3em;
     font-weight: bold;
@@ -655,6 +666,23 @@ h3 {
     color: #ffffff;
 }
 
+@media (max-width: 480px) {
+    .container-buy-buttons {
+        flex-direction: row; /* Чтобы кнопки оставались в строку */
+        gap: 5px;
+    }
+
+    .buy-nft-button, .buy-nft-button-extra {
+        font-size: 1em;
+        padding: 10px 15px;
+        min-height: 40px;
+    }
+
+    .buy-nft-button img, .buy-nft-button-extra img {
+        width: 20px;
+        height: 20px;
+    }
+}
 
 .close-panel {
     position: absolute;
@@ -817,6 +845,8 @@ h3 {
     .panel-content {
         padding: 15px;
         gap: 12px;
+
+        max-height: 85vh;
     }
 
     .panel-content h2 {
@@ -837,6 +867,8 @@ h3 {
 
 @media (max-width: 480px) {
     .panel-content {
+        max-height: 65vh;
+
         padding: 10px;
         gap: 8px;
     }
