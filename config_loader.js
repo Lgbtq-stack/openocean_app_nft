@@ -77,11 +77,11 @@ function getUserIdFromURL() {
 
 function updateWalletInfo(nickname, balance, balance_bonus, level, extra_balance) {
 
-    document.getElementById("wallet-address").textContent = `User: ${nickname}`;
-    document.getElementById("wallet-balance").innerHTML = `Balance: ${balance + balance_bonus}
+    document.getElementById("wallet-address").textContent = `${nickname}`;
+    document.getElementById("wallet-balance").innerHTML = `${balance + balance_bonus}
     <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
     document.getElementById("user-level").innerHTML = `Level: ${level}`;
-    document.getElementById("balance_extra").innerHTML = `Extra Balance: ${extra_balance}
+    document.getElementById("balance_extra").innerHTML = `${extra_balance}
     <img src="content/nft_extra.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: sub;">`;
 }
 
@@ -1236,8 +1236,9 @@ async function refreshUserBalance(showPopup = true) {
         totalBalance = data.balance + data.balance_bonus;
 
         if (data && data.balance !== undefined) {
-            document.getElementById('wallet-balance').innerHTML = `<strong>Balance:</strong> ${totalBalance.toFixed(2)} 
+            document.getElementById('wallet-balance').innerHTML = ` ${totalBalance.toFixed(2)} 
             <img src="content/money-icon.png" alt="NFT Icon" style="width: 25px; height: 20px; vertical-align: middle">`;
+
 
             userDataCache = {
                 data: data,
