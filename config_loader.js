@@ -1134,7 +1134,7 @@ window.openWebPage = function(elementId) {
 }
 
 document.querySelector(".recharge-button").addEventListener("click", () => openPopup("recharge"));
-document.querySelector(".withdraw-button").addEventListener("click", () => openPopup("withdraw"));
+// document.querySelector(".withdraw-button").addEventListener("click", () => openPopup("withdraw"));
 
 closeButton.addEventListener("click", closePopup);
 confirmButton.addEventListener("click", handleConfirm);
