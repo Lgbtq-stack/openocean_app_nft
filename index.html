@@ -3,193 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>World NFT Market</title>
-    <link href="style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stellar-sdk@10.5.1/lib/stellar-sdk.min.js"></script>
-
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link rel="stylesheet" href="styles/HomePageStyle.css">
+    <link rel="stylesheet" href="styles/TrendingsPageStyle.css">
+    <link rel="stylesheet" href="styles/CartPageStyle.css">
+    <link rel="stylesheet" href="styles/CategoryPageStyle.css">
+    <link rel="stylesheet" href="styles/UserPageStyle.css">
+    <link rel="stylesheet" href="styles/UtilitiesStyle.css">
+    <link rel="stylesheet" href="styles/ErrorPopupStyle.css">
+    <link rel="stylesheet" href="styles/ProductDetailsStyle.css">
+    <link rel="stylesheet" href="styles/PurchaseHandlerStyle.css">
+    <link rel="stylesheet" href="styles/HistoryPageStyle.css">
 </head>
-
 <body>
-<header>
-    <nav class="navbar">
-        <div class="upper-side">
-            <div class="logo">World NFT Market</div>
-            <div class="my-nfts-nav"><a href="#" onclick="showSection('my-nfts')"> <img src="content/user.png" alt="NFT 1"></a></div>
+
+<div class="container">
+    <!-- Main Menu (Progress) -->
+    <section id="main-menu" class="section">
+        <div class="gradient-circle"></div>
+
+        <div class="logo-container">
+            <img src="content/logo.png" alt="Logo" class="logo-image">
         </div>
-        <ul class="nav-links">
-            <li><a href="#" onclick="showSection('hero')">Home</a></li>
-            <li><a href="#" onclick="showSection('trending')">Trending</a></li>
-            <li><a href="#" onclick="showSection('categories')">Categories</a></li>
-        </ul>
-    </nav>
-</header>
+        <h2>🔥 Welcome</h2>
+        <p class="desc">💱 NFT FINAL FLIP <br/>
+            Track how many NFTs need to be sold before ALL FLIPS are activated simultaneously!.</p>
 
-<section id="hero" class="hero">
-    <div class="hero-content" id="hero-content">
-        <h1>Discover and Trade Digital Collectibles</h1>
-        <div class="nft-showcase">
-            <img src="content/nft_1.png" alt="NFT 1">
-            <img src="content/nft_2.png" alt="NFT 2">
-            <img src="content/nft_3.png" alt="NFT 3">
-            <img src="content/nft_4.png" alt="NFT 4">
-            <img src="content/nft_5.png" alt="NFT 5">
+        <div class="card" id="level-summary-card">
+            <h3>Level Progress</h3>
+            <div class="progress-bar">
+                <div class="progress" id="summary-progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="bonuses">
+                <strong>Bonuses</strong>
+                <p id="summary-bonuses">Loading...</p>
+            </div>
+
+<!--            <p class="see-all-levels" id="see-all-level-home">🔽 Show All Levels</p>-->
+
+<!--            <div class="level-list" id="all-level-list"></div>-->
         </div>
-        <p>Browse trending NFTs and become part of the growing NFT community.</p>
 
-        <button class="cta" onclick="showSection('trending')">Explore NFTs</button>
-    </div>
-</section>
+        <div class="liquidity-card">
+            <p class="liquidity-text">
+                NFTs Left Until Flip:  <span class="nft-balance" id="nft-balance">loading...</span>
+            </p>
 
-<section id="trending" class="trending" style="display: none;">
-    <h2>Trending NFTs</h2>
-    <div class="trending-slider-container">
-        <div class="trending-slider" id="slider">
-            <div class="trending-slider-track" id="sliderTrack">
+            <div class="liquidity-bar">
+                <div class="liquidity-fill" id="liquidity-progress" style="width: 0%;"></div>
+            </div>
+
+            <div class="liquidity-timer">
+                Next update in: <span id="countdown-seconds">10</span>s
             </div>
         </div>
-    </div>
-    <div class="trending-content">
-        <h3>Other Trending NFTs</h3>
-        <div class="cards">
-        </div>
-    </div>
-</section>
 
-<section id="categories" class="categories" style="display: none;">
-    <h2>Explore Categories</h2>
-    <div class="slider-category-list-container">
-        <div class="slider-control prev" aria-label="Previous"> <img src="content/arrow.png" alt="arrow"> </div>
-        <div class="slider-wrapper">
-            <div class="slider-category-list">
-                <!-- Place for slider elements -->
-            </div>
-        </div>
-        <div class="slider-control next" aria-label="Next"> <img src="content/arrow.png" alt="arrow"> </div>
-    </div>
-    <div class="category-list-container">
-        <div id="category-list" class="category-list">
-            <!-- Place for elements in container-->
-        </div>
+        <button class="add-fund-btn" id="add-fund-btn">💰 Add Funds</button>
 
-        <div id="pagination-container" class="pagination"></div>
-    </div>
-</section>
 
-<section class="my-nfts" id="my-nfts" style="display: none;">
-    <h2>My NFTs</h2>
-    <div class="total-value-box">
-        <p id="nft-total-value">Total Value: 00000 XML</p>
-    </div>
+    </section>
 
-    <div class="category-slider" id="category-slider" style="display: block;">
-        <div class="slider-control-nft prev"> <img src="content/arrow.png" alt="arrow"> </div>
-        <div class="nft-slider-wrapper">
-            <div class="nft-slider-track" id="my-nft-slider-track">
-                <!-- Кнопки категорий добавятся сюда динамически -->
-            </div>
-        </div>
-        <div class="slider-control-nft next"> <img src="content/arrow.png" alt="arrow"> </div>
-    </div>
-
-    <div class="explore-section" id="explore-section" style="display: none;">
-        <h2>Explore NFTs</h2>
-        <div class="my-nft-cards" id="my-nft-cards">
+    <!-- Trending NFTs -->
+    <section id="trending-nfts" class="section" style="display:none;">
+        <h2>🔥 Trending NFTs</h2>
+        <div class="cards" id="trending-cards-container">
             <!-- Карточки будут добавляться сюда -->
         </div>
-    </div>
+    </section>
 
-    <div class="my-nft-no-nfts" id="my-nft-no-nfts" style="display: none;">
-        <p>You don't have any NFTs in this collection.</p>
-        <button class="my-nft-cta" onclick="showSection('trending')">Explore NFTs</button>
-    </div>
-</section>
+    <!-- Categories/Search -->
+    <section id="categories" class="section" style="display:none;">
+        <div class="search-container" id="search-container">
+            <input type="text" placeholder="Search NFTs...">
 
-<div class="bottom-panel">
-    <div class="wallet-info">
-        <div class="wallet-column">
-            <p class="wallet-address" id="wallet-address"><strong>User:</strong></p>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <p class="wallet-balance" id="wallet-balance"><strong>Balance:</strong></p>
-                <button id="refresh-balance-button" class="refresh-button" title="Refresh Balance">
-                    <img src="content/refresh.png" alt="Refresh" class="refresh-icon">
-                </button>
+            <button class="filter-btn">Filter</button>
+        </div>
+        <h2>🔎 Explore Categories</h2>
+
+            <div class="slider-category-list-container">
+                <div class="slider-control prev" aria-label="Previous"> <img src="content/arrow.png" alt="arrow"> </div>
+                <div class="slider-wrapper">
+                    <div class="slider-category-list">
+                        <!-- Place for slider elements -->
+                    </div>
+                </div>
+                <div class="slider-control next" aria-label="Next"> <img src="content/arrow.png" alt="arrow"> </div>
+            </div>
+            <div class="category-list-container">
+                <div id="category-list" class="category-list">
+                    <!-- Place for elements in container-->
+                </div>
+
+                <div id="pagination-container" class="pagination"></div>
+            </div>
+
+    </section>
+
+    <!-- Cart -->
+    <section id="cart-section" class="section" style="display:none;">
+        <div class="cart-user-header" id="cartUserHeader">
+            <div class="user-detail">
+                <span id="user-nickname">Alex Johnson</span>
+            </div>
+            <div class="user-detail">
+                <span id="user-balance">$0</span>
+            </div>
+            <div class="user-detail">
+                <span id="user-bonus">0</span>
+            </div>
+            <div class="user-detail">
+                <span id="user-level">0</span>
             </div>
         </div>
-        <div class="wallet-column">
-            <p class="user_level" id="user-level"><strong>Level:</strong></p>
-            <p class="balance_extra" id="balance_extra"><strong>Extra Balance:</strong></p>
+
+        <h2 class="your-cart-title">🛒 Your Cart</h2>
+        <div id="cart-items"></div>
+    </section>
+
+    <!-- User Profile -->
+    <section id="user-profile" class="section" style="display:none;">
+        <h2>👤 My Profile</h2>
+        <div class="profile-card">
+            <button id="user-photo-button" class="user-photo-button">
+                <img src="content/user.png" alt="User Photo" class="user-photo">
+            </button>
+
+            <h3>Alex Johnson</h3>
+<!--            <p class="bio">NFT Enthusiast & Collector</p>-->
+
+            <div class="balance-section">
+                <span class="balance-label">Account Balance</span>
+                <div class="balance-row">
+                    <span class="balance-amount">0</span>
+                    <img src="content/money-icon.png" alt="Main" class="price-icon" />
+                    <span class="separator">/</span>
+                    <span class="balance-amount">0</span>
+                    <img src="content/nft_extra.png" alt="Bonus" class="price-icon" />
+                </div>
+                <button class="add-funds-btn" id="add-funds-btn">Add Funds</button>
+            </div>
+
+            <div class="progress-level" id="progress-level">
+            </div>
+
+            <p class="see-all-levels" id="see-all-levels">🔽 Show All Levels</p>
+
+            <div class="level-list" id="level-list">
+
+            </div>
+
+            <button class="history-btn" id="history-btn">Purchase History</button>
+
+            <div class="user-transactions">
+                <h3 class="user-transactions-title">🧾 My NFT Collection</h3>
+
+                <div class="purchase-history-toggle">
+<!--                    <button class="purchase-history-btn active" data-type="bought">Bought</button>-->
+<!--                    <button class="purchase-history-btn" data-type="rent">Rent</button>-->
+                </div>
+
+                <div id="purchase-history-content" class="purchase-history-content"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="purchase-success" class="section" style="display: none;">
+        <div class="success-check">✅</div>
+        <h2 class="success-title">Purchase Successful!</h2>
+        <p class="success-subtitle">Thank you for your purchase.</p>
+
+        <div id="purchased-items" class="purchased-items-grid">
+        </div>
+        <button class="view-collection-btn" onclick="setActiveTab(document.querySelector('.nav-item.trending'))">
+            Go Shopping
+        </button>
+    </section>
+
+    <section id="history-page" class="section" style="display: none;">
+        <button class="back-btn" onclick="goBack()">← Back</button>
+        <h2>📑 Purchase History</h2>
+        <div id="history-list" class="history-list">
+            <p>Loading...</p>
+        </div>
+    </section>
+
+    <div id="sort-popup" class="sort-popup-overlay" style="display: none;">
+        <div class="sort-popup">
+            <h3>Sort NFTs</h3>
+            <ul>
+                <li onclick="sortCategoryList('price-asc')">Price: Low to High</li>
+                <li onclick="sortCategoryList('price-desc')">Price: High to Low</li>
+                <li onclick="sortCategoryList('name-asc')">Name: A → Z</li>
+                <li onclick="sortCategoryList('name-desc')">Name: Z → A</li>
+                <li class="clear-filter" onclick="sortCategoryList('clear')">Clear</li>
+            </ul>
+            <button class="close-sort-btn" onclick="closeSortPopup()">Close</button>
         </div>
     </div>
 
-
-    <div class="button-group">
-        <button class="recharge-button">Recharge</button>
-<!--        <button class="withdraw-button">Withdraw</button>-->
-    </div>
+    <footer class="footer">
+        <div class="nav-item trending" onclick="setActiveTab(this)">
+            <img src="content/trending.png" alt="Trendings" class="nav-icon">
+        </div>
+        <div class="nav-item categories" onclick="setActiveTab(this)">
+            <img src="content/apps.png" alt="Categories" class="nav-icon">
+        </div>
+        <div class="nav-item home active" onclick="setActiveTab(this)">
+            <img src="content/home.png" alt="Home" class="nav-icon">
+        </div>
+        <div class="nav-item cart" onclick="setActiveTab(this)">
+            <img src="content/trolley.png" alt="Cart" class="nav-icon">
+            <span class="cart-count">3</span>
+        </div>
+        <div class="nav-item myProfile" onclick="setActiveTab(this)">
+            <img src="content/userNew.png" alt="MyProfile" class="nav-icon">
+        </div>
+    </footer>
 </div>
+
+<!-- Utilities -->
 
 <div class="nft-details-panel" id="nftDetailsPanel">
     <div class="panel-content">
-        <button class="close-panel">X</button>
+        <button class="close-panel" onclick="closeNFTDetails()">← Back</button>
         <img id="nft-image" class="nft-image" src="" alt="NFT Image">
+        <div id="nft-tags" class="nft-tag-container"></div>
+
         <h2 id="nft-title" class="nft-title">NFT Title</h2>
-
-        <div class="nft-info-row">
-            <div class="nft-info-item">
-                <div class="nft-collection-icon-info">🏷️ </div><span id="nft-collection">Box</span>
-            </div>
-            <div class="nft-info-item">
-                <div class="nft-holders-icon-info">👥 </div><span id="nft-holders">0</span>
-            </div>
-            <div class="nft-info-item">
-                <div class="nft-total-bought-icon-info">📊 </div><span id="nft-total-bought">0</span>
-            </div>
-            <div class="nft-info-item">
-                <div class="nft-owned-count-icon-info">📥 </div><span id="nft-owned-count">0</span>
-            </div>
+        <p id="nft-description">Description here</p>
+        <h4>Collection</h4>
+        <p id="nft-collection">Artisan Name</p>
+        <h4>Prices</h4>
+        <div id="nft-price" class="nft-price-container">
+            <span class="price-block">
+                175.00 <img src="content/money-icon.png" class="price-icon" alt="NFT"/>
+            </span>
+            <span class="price-separator">or</span>
+            <span class="price-block">
+                1 <img src="content/nft_extra.png" class="price-icon" alt="Bonus"/>
+            </span>
         </div>
 
-        <div class="nft-description">
-            <p><strong>📝 </strong> <span id="nft-description">No Description Available.</span></p>
-        </div>
-
-        <div class="flex-container">
-            <div class="nft-price-row">
-                <p><span id="nft-price">
-                <img src="content/money-icon.png" alt="NFT Icon"> 37.22 NFT
-            </span></p>
-            </div>
-
-            <div class="count-container">
-                <button class="count-button" id="decrease-count">-</button>
-                <span id="nft-count-display">1</span>
-                <button class="count-button" id="increase-count">+</button>
-            </div>
-        </div>
-
-        <div class="container-buy-buttons">
-            <button class="buy-nft-button">
-                <img src="content/money-icon.png" alt="NFT Icon"> <span id="buy-nft-price">970.00</span>
-            </button>
-            <button class="buy-nft-button-extra">
-                <img src="content/nft_extra.png" alt="NFT Extra Icon"> <span id="buy-nft-extra-price">1.00</span>
-            </button>
-        </div>
+        <button class="add-to-cart-button">Add to Cart</button>
     </div>
 </div>
 
-
+<div id="toast-notification" class="toast">✔ Added to cart</div>
 
 <button id="scrollToTop" class="scroll-to-top">↑</button>
 
+<!--<div id="loading-panel" class="loading hidden">-->
+<!--    <p>⏳ Loading...</p>-->
+<!--</div>-->
+
+<div id="error-popup" class="error-popup-overlay">
+    <div class="error-popup-content">
+        <h2 id="error-title">Warning</h2>
+        <p id="error-message">Something went wrong. Please try again.</p>
+        <button id="close-error-popup-button">Close</button>
+    </div>
+</div>
+
 <div id="popup-overlay" class="popup-overlay">
     <div class="popup-content" id="popup-content">
-        <h2 id="popup-title">Recharge/Withdraw</h2>
-
+        <h2 id="popup-title">Recharge</h2>
         <div id="recharge-content" style="display: none;">
-            <p class="instructions-text">Follow the instructions to deposit funds:</p>
+            <p class="instructions-text">Follow the instructions to deposit funds</p>
             <ol class="recharge-steps">
                 <li>
                     <p>You need to buy NFT asset on the following link:</p>
@@ -225,44 +309,35 @@
             <p class="important-text"><strong>IMPORTANT:</strong> Ensure the MEMO matches exactly to avoid losing your funds.</p>
             <button class="ok-button" onclick="closePopup()">OK</button>
         </div>
+    </div>
+</div>
 
-        <div id="withdraw-content" class="withdraw-content" style="display: none;">
-            <p>Enter the withdrawal details:</p>
-
-            <input type="text" id="wallet-input" class="input-field" placeholder="Recipient Wallet" />
-
-            <p class="warning-withdraw">⚠️ You need to add trustline for NFT asset.</p>
-
-            <input type="number" id="amount-input" class="input-field" placeholder="Amount" />
-
-            <p class="warning-withdraw">⚠️ Your wallet will be credited within 15 minutes.</p>
-
-            <div class="popup-buttons">
-                <button id="confirm-button" class="confirm-button">Confirm</button>
-                <button id="close-popup-button" class="close-popup-button" onclick="closePopup()">Cancel</button>
-            </div>
+<div id="icon-panel-overlay" class="icon-overlay" style="display: none;">
+    <div class="icon-panel-wrapper">
+        <div id="icon-picker-panel" class="icon-panel">
+            <button onclick="closeIconPanel()" class="close-icon-panel">✖</button>
+            <h3>Select an icon</h3>
+            <div class="icon-grid"></div>
         </div>
     </div>
 </div>
 
-<div id="countdown-popup" class="popup-overlay">
-    <div class="countdown-popup-content">
-        <h2>Confirmation Sent</h2>
-        <p>The MiniApp will close automatically.</p>
-        <p id="countdown-timer">Closing in 5 seconds...</p>
+<div id="cart-added-popup" class="cart-popup-overlay hidden">
+    <div class="cart-popup-box">
+        <p class="cart-popup-message">✅ Item added to cart</p>
+        <div class="cart-popup-actions">
+            <button class="cart-popup-btn cart-popup-continue">Continue</button>
+            <button class="cart-popup-btn cart-popup-goto">Go to Cart</button>
+        </div>
     </div>
 </div>
+<!-- JS -->
 
-<div id="error-popup" class="error-popup-overlay">
-    <div class="error-popup-content">
-        <h2 id="error-title">Warning</h2>
-        <p id="error-message">Something went wrong. Please try again.</p>
-        <button id="close-error-popup-button">Close</button>
-    </div>
-</div>
+<script type="module" src="js/index.js"></script>
+<script type="module" src="js/StellarHandler.js"></script>
+<script type="module" src="js/CategorySectionLogic.js"></script>
+<script type="module" src="js/CartLogic.js"></script>
+<script type="module" src="js/UserPageLogic.js"></script>
 
-<script type="module" src="config_loader.js"></script>
-<script src="index.js"></script>
 </body>
 </html>
-

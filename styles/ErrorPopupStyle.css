@@ -1,0 +1,200 @@
+.error-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+
+    pointer-events: none;
+}
+
+.error-popup-content {
+    background: var(--white);
+    box-shadow: 0 4px 15px var(--border-color);
+    border-bottom: 2px solid var(--box-shadow-medium);
+    border-top: 2px solid var(--box-shadow-medium);
+    padding: 20px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+
+    pointer-events: auto;
+}
+
+.error-popup-content h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.error-popup-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.error-popup-content button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    outline: none;
+}
+
+
+/* Recharge Popup */
+
+/* Затемнение фона */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Сам попап */
+.popup-content {
+    background: white;
+    padding: 24px 28px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    font-family: "Segoe UI", sans-serif;
+    font-size: 15px;
+    color: #222;
+}
+
+/* Заголовок */
+#popup-title {
+    margin-top: 0;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* Списки */
+.recharge-steps {
+    padding-left: 18px;
+    margin-bottom: 16px;
+}
+
+.recharge-steps li {
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* Подзаголовки */
+strong {
+    display: inline-block;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+/* Блоки с копированием */
+.copy-section {
+    background: #f9f9f9;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-top: 6px;
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.copy-section p {
+    margin: 0;
+    flex: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.copy-button {
+    background: var(--primary, #4a90e2);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.copy-button:hover {
+    background: #3a78c2;
+}
+
+.instructions-text {
+    text-align: center;
+}
+
+/* Инфо-блоки */
+.instructions-text,
+.important-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.important-text {
+    color: red;
+    font-weight: bold;
+}
+
+/* OK-кнопка */
+.ok-button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.ok-button:hover {
+    background-color: #3a78c2;
+}
+
+@media (max-width: 480px) {
+    .popup-content {
+        padding: 18px 20px;
+
+        margin: 0 50px;
+    }
+
+    .ok-button {
+        font-size: 13px;
+    }
+
+    #popup-title {
+        font-size: 20px;
+    }
+}
