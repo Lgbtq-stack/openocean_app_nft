@@ -20,6 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
     tg = Telegram.WebApp;
 });
 
+function getUserIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    user_Id = urlParams.get("user_id");
+
+    if (user_Id) {
+        console.log(`User ID from URL: ${user_Id}`);
+        return user_Id;
+    } else {
+        console.warn("User ID not found in the URL.");
+        return null;
+    }
+}
+
 window.setActiveTab = async function (selectedTab) {
     // await showLoader();
 
@@ -74,8 +87,8 @@ window.setActiveTab = async function (selectedTab) {
 };
 
 async function initializeApp() {
-    // user_Id = getUserIdFromURL();
-    user_Id = 7568295563;
+    user_Id = getUserIdFromURL();
+    // user_Id = 7568295563;
 
     if (!user_Id) {
         showErrorPopup("error", "User ID is missing in the URL.");
