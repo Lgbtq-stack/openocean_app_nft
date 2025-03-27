@@ -1,6 +1,9 @@
 import {showErrorPopup} from "./PopupLogic.js";
 import {user_Id} from "./index.js";
 
+window.usdBalance = 0;
+window.nftBalance = 0;
+
 export async function showCartUserHeader() {
     const response = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);
     if (!response.ok) {
@@ -18,6 +21,9 @@ export async function showCartUserHeader() {
                 <img src="content/nft_extra.png" class="price-icon" alt="Extra" />${userData.balance_bonus}`;
     document.getElementById('user-level').textContent = `📊 ${userData.level}`;
     header.classList.add('show');
+
+    window.usdBalance = userData.balance || 0;
+    window.nftBalance = userData.balance_bonus || 0;
 }
 
 export function hideCartUserHeader() {
@@ -85,7 +91,7 @@ export function renderCart() {
           <span class="total-label">Total price:</span>
           <div class="total-values"></div>
         </div>
-        <button class="pay-now-btn" onclick="handleSuccessfulPurchase()">Pay Now</button>
+        <button class="pay-now-btn">Pay Now</button>
     `;
     itemsContainer.appendChild(summary);
 
@@ -122,15 +128,33 @@ export function renderCart() {
                 const usdPurchases = [];
                 const nftPurchases = [];
 
+                let totalUsd = 0;
+                let totalNft = 0;
+
                 items.forEach(item => {
                     const itemCurrency = item.moneyType || 'usd';
 
                     if (itemCurrency === "usd") {
-                        usdPurchases.push({ id: item.id, count: item.count });
+                        usdPurchases.push({ id: item.id, count: item.count, price: item.price });
+                        totalUsd += item.price * item.count;
                     } else if (itemCurrency === "nft") {
                         nftPurchases.push({ id: item.id, count: item.count });
+                        totalNft += item.count;
                     }
                 });
+
+                const usdBalance = window.usdBalance || 0;
+                const nftBalance = window.nftBalance || 0;
+
+                if (totalUsd > usdBalance) {
+                    showErrorPopup("warning","Not enough NFT balance.");
+                    return;
+                }
+
+                if (totalNft > nftBalance) {
+                    showErrorPopup("warning","Not enough FREE NFT balance.");
+                    return;
+                }
 
                 for (const product of usdPurchases) {
 
