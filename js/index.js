@@ -67,14 +67,26 @@ window.setActiveTab = async function (selectedTab) {
 
         if (currentTab === 'main-menu') {
             await loadHomepageLevelSummary();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
         } else if (currentTab === 'trending-nfts') {
             await loadTrendingNFTs();
         } else if (currentTab === 'cart-section') {
             await showCartUserHeader();
             renderCart();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
         } else if (currentTab === 'categories') {
         } else if (currentTab === 'user-profile') {
             await loadUserData();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
         }
     } catch (error) {
         console.error("Error when changing tabs:", error);
