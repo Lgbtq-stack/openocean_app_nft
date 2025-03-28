@@ -20,7 +20,7 @@ export async function showDepositHistoryPage() {
 
         const totalHTML = `
             <div class="deposit-total">
-                <strong>Total Deposited:</strong> $${totalAmount.toFixed(2)} 
+                <strong>Total Deposited:</strong> ${totalAmount.toFixed(2)} 
                 <img src="/content/xml-icon.png" class="deposit-history-price-icon" />
             </div>
         `;
@@ -38,7 +38,7 @@ export async function showDepositHistoryPage() {
                 <div class="deposit-history-item">
                     <div class="deposit-history-info">
                         <p><strong>Date:</strong> ${date}</p>
-                        <p><strong>Amount:</strong> $${Number(item.amount).toFixed(2)}
+                        <p><strong>Amount:</strong> ${Number(item.amount).toFixed(2)}
                     <img src="/content/xml-icon.png" class="deposit-history-price-icon" /></p>
                     </div>
                 </div>
