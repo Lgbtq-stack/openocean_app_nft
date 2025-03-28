@@ -68,10 +68,10 @@ export function renderCart() {
 
             <div class="buy-section ${mode === 'buy' ? '' : 'hidden'}" id="buy-section-${item.id}">
                 <div class="currency-toggle">
-                    <div class="currency-option selected" data-id="${item.id}" data-currency="usd">
+                    <div class="currency-option ${item.moneyType === 'usd' ? 'selected' : ''}" data-id="${item.id}" data-currency="usd">
                         ${itemTotalUSD.toFixed(2)} <img src="content/money-icon.png" class="price-icon" />
                     </div>
-                    <div class="currency-option" data-id="${item.id}" data-currency="nft">
+                    <div class="currency-option ${item.moneyType === 'nft' ? 'selected' : ''}" data-id="${item.id}" data-currency="nft">
                         ${itemTotalNFT} <img src="content/nft_extra.png" class="price-icon" />
                     </div>
                 </div>
