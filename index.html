@@ -19,10 +19,11 @@
     <link rel="stylesheet" href="styles/ProductDetailsStyle.css">
     <link rel="stylesheet" href="styles/PurchaseHandlerStyle.css">
     <link rel="stylesheet" href="styles/HistoryPageStyle.css">
+    <link rel="stylesheet" href="styles/DepositHistoryPageStyle.css">
 </head>
 <body>
 
-<div class="container">
+<div id="container" class="container">
     <!-- Main Menu (Progress) -->
     <section id="main-menu" class="section">
         <div class="gradient-circle"></div>
@@ -145,7 +146,10 @@
                     <span class="balance-amount">0</span>
                     <img src="content/nft_extra.png" alt="Bonus" class="price-icon" />
                 </div>
-                <button class="add-funds-btn" id="add-funds-btn">Add Funds</button>
+                <div class="account-buttons">
+                    <button class="add-funds-btn" id="add-funds-btn">Add Funds</button>
+                    <button class="add-funds-btn" id="deposit-history-btn">Deposit History</button>
+                </div>
             </div>
 
             <div class="progress-level" id="progress-level">
@@ -188,6 +192,14 @@
         <button class="back-btn" onclick="goBack()">← Back</button>
         <h2>📑 Purchase History</h2>
         <div id="history-list" class="history-list">
+            <p>Loading...</p>
+        </div>
+    </section>
+
+    <section id="deposit-history-page" class="section" style="display: none;">
+        <button class="back-btn" onclick="goDepositHistoryBack()">← Back</button>
+        <h2>📑 Deposit History</h2>
+        <div id="deposit-history-list" class="deposit-history-list">
             <p>Loading...</p>
         </div>
     </section>
@@ -280,7 +292,7 @@
                     <div class="copy-section">
                         <strong>URL:</strong>
                         <p><span id="link-address-popup">https://lobstr.co/trade/NFT:GBBWC7PI3LX4GNQ2AMF3HOHJCTHFWSIADMCB2DZIRNM6IKIVRTXMJTRG</span></p>
-                        <button class="copy-button" onclick="openWebPage('link-address-popup')">OPEN</button>
+                        <button class="copy-button" id="open-link" onclick="openWebPage()">OPEN</button>
                     </div>
                 </li>
 

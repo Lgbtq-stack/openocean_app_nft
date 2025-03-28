@@ -1,5 +1,6 @@
 import {showNFTDetails} from "./ProductDetailsLogic.js";
 import {showErrorPopup} from "./PopupLogic.js";
+import {scrollToTop} from "./Utilities.js";
 
 let currentPage = 1;
 let currentCategory = 1;
@@ -91,10 +92,7 @@ function createPageButton(pageNumber, currentPage, onPageChange) {
 
     button.addEventListener("click", () => {
         onPageChange(pageNumber);
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
+        scrollToTop();
     });
 
     return button;
@@ -218,6 +216,7 @@ export async function loadCategories(page = 1, category) {
         currentItems = items;
 
         renderNFTList(items);
+        scrollToTop();
     } catch (err) {
         console.error("Error loading categories:", err);
     }

@@ -18,12 +18,12 @@ export async function showCartUserHeader() {
     document.getElementById('user-balance').innerHTML = `
                 <img src="content/money-icon.png" class="price-icon" alt="NFT" />${userData.balance}`;
     document.getElementById('user-bonus').innerHTML = `
-                <img src="content/nft_extra.png" class="price-icon" alt="Extra" />${userData.balance_bonus}`;
+                <img src="content/nft_extra.png" class="price-icon" alt="Extra" />${userData.balance_extra}`;
     document.getElementById('user-level').textContent = `📊 ${userData.level}`;
     header.classList.add('show');
 
     window.usdBalance = userData.balance || 0;
-    window.nftBalance = userData.balance_bonus || 0;
+    window.nftBalance = userData.balance_extra || 0;
 }
 
 export function hideCartUserHeader() {

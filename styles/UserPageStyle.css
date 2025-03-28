@@ -77,12 +77,18 @@
     vertical-align: middle;
 }
 
+.account-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
 .add-funds-btn {
     background-color: #4e9eff;
     border: none;
     color: #fff;
     padding: 10px 20px;
-    border-radius: 24px;
+    border-radius: 12px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
@@ -366,10 +372,11 @@
 }
 
 .user-transactions {
-    padding: 20px;
+    padding: 20px 0;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-top: 16px;
 }
 
 .user-transactions-title {
@@ -482,5 +489,54 @@
 }
 
 .rent-price-display {
-    font-size: 20px;
+
+    background-color: var(--primary);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--bg-color-light);
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    white-space: nowrap;
+    text-align: center;
 }
+
+
+.rent-price-display .price-icon {
+    width: 26px;
+}
+
+.rent-quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.qty-btn {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
+
+.qty-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.qty-value {
+    font-size: 18px;
+    font-weight: 600;
+    width: 30px;
+    text-align: center;
+    display: inline-block;
+}
+

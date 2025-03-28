@@ -6,6 +6,7 @@ import {loadUserData} from "./UserPageLogic.js";
 import {loadHomepageLevelSummary} from "./HomePageLogic.js";
 import {createCategories} from "./CategorySectionLogic.js";
 import {startLiquidityCoroutine} from "./StellarHandler.js";
+import {scrollToTop} from "./Utilities.js";
 
 export let user_Id = null;
 
@@ -30,6 +31,15 @@ function getUserIdFromURL() {
     } else {
         console.warn("User ID not found in the URL.");
         return null;
+    }
+}
+
+function openWebPage() {
+    const url = document.getElementById("link-address-popup").textContent.trim();
+    if (url) {
+        window.open(url, '_blank');
+    } else {
+        console.error("URL is empty or invalid.");
     }
 }
 
@@ -67,26 +77,14 @@ window.setActiveTab = async function (selectedTab) {
 
         if (currentTab === 'main-menu') {
             await loadHomepageLevelSummary();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
         } else if (currentTab === 'trending-nfts') {
             await loadTrendingNFTs();
         } else if (currentTab === 'cart-section') {
             await showCartUserHeader();
             renderCart();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
         } else if (currentTab === 'categories') {
         } else if (currentTab === 'user-profile') {
             await loadUserData();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
         }
     } catch (error) {
         console.error("Error when changing tabs:", error);
@@ -94,7 +92,9 @@ window.setActiveTab = async function (selectedTab) {
         // await hideLoader();
         closeNFTDetails();
         hideSuccessfulPurchase();
+        scrollToTop();
         goBack();
+        goDepositHistoryBack();
     }
 };
 
@@ -113,5 +113,8 @@ async function initializeApp() {
     startLiquidityCoroutine();
 
 }
+
+window.openWebPage = openWebPage;
+
 
 document.addEventListener("DOMContentLoaded", initializeApp);

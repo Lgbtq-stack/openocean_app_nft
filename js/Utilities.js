@@ -47,6 +47,13 @@ scrollToTopButton.addEventListener('click', () => {
     });
 });
 
+export function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+}
+
 window.copyToClipboard = function(elementId) {
     const element = document.getElementById(elementId);
     if (!element) {
