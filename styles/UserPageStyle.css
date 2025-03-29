@@ -527,7 +527,7 @@
     margin-top: 5px;
 }
 
-.qty-btn {
+.purchase-history-card .qty-btn {
     background-color: #4A90E2;
     color: white;
     border: none;
@@ -538,9 +538,10 @@
     cursor: pointer;
     transition: background-color 0.2s;
     font-weight: bold;
+    text-align: center;
 }
 
-.qty-btn:disabled {
+.purchase-history-card .qty-btn:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
