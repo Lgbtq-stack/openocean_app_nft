@@ -37,7 +37,7 @@ export async function loadHomepageLevelSummary() {
         bonusesEl.innerHTML = levelData.description?.map(line => `<div>${line}</div>`).join("") || "No bonuses.";
 
         if (progressHeading) {
-            progressHeading.innerHTML = `Level ${currentLevelNumber} – Remaining to next level: ${Math.round(remaining).toLocaleString()} <img src="content/money-icon.png" class="price-icon"/>`;
+            progressHeading.innerHTML = `Level ${currentLevelNumber} – Remaining to next level: ~${Math.round(remaining).toLocaleString()} <img src="content/money-icon.png" class="price-icon"/>`;
         }
 
         document.getElementById("add-fund-btn")?.addEventListener("click", () => {
