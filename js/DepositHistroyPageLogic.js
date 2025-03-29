@@ -20,8 +20,8 @@ export async function showDepositHistoryPage() {
 
         const totalHTML = `
             <div class="deposit-total">
-                <strong>Total Deposited:</strong> ${totalAmount.toFixed(2)} 
-                <img src="content/money-icon.png" class="deposit-history-price-icon"  alt=""/>
+                <strong>Total Deposited:</strong> $${totalAmount.toFixed(2)} 
+                <img src="/content/xml-icon.png" class="deposit-history-price-icon" />
             </div>
         `;
 
@@ -38,15 +38,14 @@ export async function showDepositHistoryPage() {
                 <div class="deposit-history-item">
                     <div class="deposit-history-info">
                         <p><strong>Date:</strong> ${date}</p>
-                        <p><strong>Amount:</strong> ${Number(item.amount).toFixed(2)}
-                    <img src="content/money-icon.png" class="deposit-history-price-icon"  alt=""/></p>
+                        <p><strong>Amount:</strong> $${Number(item.amount).toFixed(2)}
+                    <img src="/content/xml-icon.png" class="deposit-history-price-icon" /></p>
                     </div>
                 </div>
             `;
         }).join('');
 
         container.innerHTML = totalHTML + itemsHTML;
-
     } catch (err) {
         console.error(err);
         container.innerHTML = "<p>Error loading history.</p>";

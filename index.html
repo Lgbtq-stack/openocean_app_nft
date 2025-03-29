@@ -140,10 +140,10 @@
             <div class="balance-section">
                 <span class="balance-label">Account Balance</span>
                 <div class="balance-row">
-                    <span class="balance-amount">0</span>
+                    <span class="balance-amount" id="nft-balance-amount">0</span>
                     <img src="content/money-icon.png" alt="Main" class="price-icon" />
                     <span class="separator">/</span>
-                    <span class="balance-amount">0</span>
+                    <span class="balance-amount" id="extra-balance-amount">0</span>
                     <img src="content/nft_extra.png" alt="Bonus" class="price-icon" />
                 </div>
                 <div class="account-buttons">
@@ -253,12 +253,28 @@
         <h4>Prices</h4>
         <div id="nft-price" class="nft-price-container">
             <span class="price-block">
-                175.00 <img src="content/money-icon.png" class="price-icon" alt="NFT"/>
+                0 <img src="content/money-icon.png" class="price-icon" alt="NFT"/>
             </span>
             <span class="price-separator">or</span>
             <span class="price-block">
-                1 <img src="content/nft_extra.png" class="price-icon" alt="Bonus"/>
+                0 <img src="content/nft_extra.png" class="price-icon" alt="Bonus"/>
             </span>
+        </div>
+
+        <div class="currency-toggle">
+            <div class="currency-option selected" id="currency-usd"><img src="content/money-icon.png" class="price-icon" alt="NFT"/></div>
+            <div class="currency-option" id="currency-nft"><img src="content/nft_extra.png" class="price-icon" alt="Bonus"/></div>
+        </div>
+
+        <div class="quantity-controls">
+            <button class="qty-btn decrement" id="nft-qty-decrement">−</button>
+            <span id="nft-qty-value">1</span>
+            <button class="qty-btn increment" id="nft-qty-increment">+</button>
+        </div>
+
+        <div class="total-price-display">
+            Total: <span id="total-price-value"></span>
+            <img id="total-price-icon" class="price-icon" />
         </div>
 
         <button class="add-to-cart-button">Add to Cart</button>
@@ -350,7 +366,6 @@
 <script type="module" src="js/CategorySectionLogic.js"></script>
 <script type="module" src="js/CartLogic.js"></script>
 <script type="module" src="js/UserPageLogic.js"></script>
-<script type="module" src="js/DepositHistroyPageLogic.js"></script>
 
 </body>
 </html>

@@ -27,15 +27,22 @@ export function startLiquidityCoroutine() {
 
     async function updateLiquidity() {
         const balance = await getTokenBalance(accountId, code, issuer);
+        const conversionRes = await fetch("https://miniappservcc.com/api/nfts/conversion");
+        const { total } = await conversionRes.json();
+
         if (balance !== null) {
             const parsed = parseFloat(balance);
+            let adjustedBalance = parsed - total;
+
+            if (adjustedBalance < 0) adjustedBalance = 0;
+
             balanceDisplay.innerHTML = `
-                ${Number(parsed).toLocaleString('en-US')}
-                <img src="content/money-icon.png" class="liquidity-icon" />
-            `;
+            ${Number(adjustedBalance).toLocaleString('en-US')}
+            <img src="content/money-icon.png" class="liquidity-icon" />
+        `;
 
             const max = 10_000_000;
-            const percent = Math.min(((max - parsed) / max) * 100, 100);
+            const percent = Math.min(((max - adjustedBalance) / max) * 100, 100);
             if (progressBar) progressBar.style.width = `${percent}%`;
         } else {
             balanceDisplay.textContent = "N/A";
@@ -46,7 +53,6 @@ export function startLiquidityCoroutine() {
         if (timerDisplay) timerDisplay.textContent = currentTimer;
     }
 
-
     updateLiquidity();
 
     setInterval(() => {
@@ -56,5 +62,5 @@ export function startLiquidityCoroutine() {
         if (currentTimer <= 0) {
             updateLiquidity();
         }
-    }, 1000);
+    }, 6000);
 }

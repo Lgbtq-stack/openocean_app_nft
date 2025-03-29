@@ -37,8 +37,8 @@ export async function loadUserData() {
     document.querySelector(".profile-card h3").textContent = user.nickname;
     // document.querySelector(".bio").textContent = user.bio || "NFT Enthusiast & Collector";
 
-    document.querySelectorAll(".balance-amount")[0].textContent = parseFloat(user.balance).toLocaleString();
-    document.querySelectorAll(".balance-amount")[1].textContent = parseFloat(user.balance_extra).toLocaleString();
+    document.getElementById("nft-balance-amount").textContent = user.balance;
+    document.getElementById("extra-balance-amount").textContent = user.balance_extra;
 
     renderUserProgressLevel(user);
     renderLevelButtons(user.level);
@@ -244,223 +244,255 @@ export function setupUserTransactions() {
 
 }
 
-async function loadUserHistory() {
+
+let cachedUserHistory = null;
+
+async function loadUserHistory(useCache = true) {
     const container = document.getElementById("purchase-history-content");
     container.innerHTML = "<p>Loading...</p>";
+
+    if (useCache && cachedUserHistory) {
+        renderUserHistory(cachedUserHistory);
+        return;
+    }
 
     try {
         const res = await fetch(`https://miniappservcc.com/api/user/mynft?uid=${user_Id}`);
         const { data: list } = await res.json();
 
-        if (!Array.isArray(list) || list.length === 0) {
-            container.innerHTML = "<p>No items found.</p>";
-            return;
-        }
-
-        container.innerHTML = "";
-
-        list
-            .filter(item => item.nft && Object.keys(item.nft).length > 0)
-            .forEach(item => {
-                const card = document.createElement("div");
-                card.className = "purchase-history-card";
-
-                const rentedCount = Array.isArray(item.rent)
-                    ? item.rent.reduce((sum, r) => sum + (r.count || 0), 0)
-                    : 0;
-                const availableCount = item.count - rentedCount;
-
-                const firstDuration = 1;
-                const firstCount = 1;
-                const pricePerOne = item.nft[`rent_price_${firstDuration}m`] || 0;
-                const firstPrice = pricePerOne * firstCount;
-
-                // const rentBlock = availableCount > 0 ? `
-                //     <div class="rent-quantity-control" data-max="${availableCount}">
-                //         <button class="qty-btn decrement" data-id="${item.id}">–</button>
-                //         <span class="qty-value" id="qty-value-${item.id}">${firstCount}</span>
-                //         <button class="qty-btn increment" data-id="${item.id}">+</button>
-                //     </div>
-                //
-                //     <div class="rent-durations">
-                //         ${[1, 3, 6, 12, 24, 60].map((m, i) => {
-                //     const rentPrice = item.nft[`rent_price_${m}m`] || 0;
-                //     const selected = i === 0 ? 'selected' : '';
-                //     return `<button class="rent-duration-btn ${selected}"
-                //                 data-id="${item.id}"
-                //                 data-duration="${m}"
-                //                 data-price-per-one="${rentPrice}">
-                //                 ${m}m
-                //             </button>`;
-                // }).join('')}
-                //     </div>
-                //
-                //     <div class="rent-price-display" id="rent-price-${item.id}">
-                //         For ${firstCount}x ${firstDuration}m you will receive: ${firstPrice}
-                //         <img src="/content/xml-icon.png" class="price-icon" />
-                //     </div>
-                //
-                //     <button class="rent-now-btn"
-                //         data-id="${item.id}"
-                //         data-duration="${firstDuration}"
-                //         data-count="${firstCount}"
-                //         data-price-per-month="${pricePerOne}">
-                //         Rent
-                //     </button>
-                // ` : `
-                //     <div class="rent-price-display rent-receive-display">
-                //         All ${item.count} items are rented out.
-                //         <img src="/content/xml-icon.png" class="price-icon" />
-                //     </div>
-                // `;
-                //
-                const rentBlock = '';
-                card.innerHTML = `
-                    <img src="https://miniappservcc.com/get-image?path=${item.nft.image}" class="purchase-history-img" />
-                    <div class="purchase-history-info">
-                        <strong class="purchase-history-title">${item.nft.name}</strong>
-                        <p><b>Collection:</b> ${item.nft.collection.name}</p>
-                        <p><b>Count:</b> ${item.count}</p>
-                        <!--<p>
-                            <b>In Rent:</b> ${rentedCount} /
-                            <b>Available:</b> ${availableCount}
-                        </p>-->
-                        <p><b>Price:</b> ${item.nft.price * item.count}
-                            <img src="content/money-icon.png" class="price-icon" />
-                        </p>
-                    </div>
-                    ${rentBlock}
-                `;
-
-                container.appendChild(card);
-            });
-
-        // + / -
-        // container.querySelectorAll(".qty-btn").forEach(btn => {
-        //     btn.addEventListener("click", () => {
-        //         const id = btn.dataset.id;
-        //         const control = btn.closest(".rent-quantity-control");
-        //         const max = parseInt(control.dataset.max);
-        //         const valueEl = control.querySelector(`#qty-value-${id}`);
-        //         let value = parseInt(valueEl.textContent);
-        //
-        //         if (btn.classList.contains("increment") && value < max) value++;
-        //         if (btn.classList.contains("decrement") && value > 1) value--;
-        //
-        //         valueEl.textContent = value;
-        //
-        //         const rentBtn = container.querySelector(`.rent-now-btn[data-id="${id}"]`);
-        //         if (rentBtn) rentBtn.dataset.count = value;
-        //
-        //         const selectedBtn = container.querySelector(`.rent-duration-btn[data-id="${id}"].selected`);
-        //         if (selectedBtn) {
-        //             const duration = selectedBtn.dataset.duration;
-        //             const pricePerOne = Number(selectedBtn.dataset["pricePerOne"]);
-        //             const newTotal = pricePerOne * value;
-        //
-        //             const display = container.querySelector(`#rent-price-${id}`);
-        //             if (display) {
-        //                 display.innerHTML = `For ${value}x ${duration}m you will receive: ${newTotal}
-        //                     <img src="/content/xml-icon.png" class="price-icon" />`;
-        //             }
-        //
-        //             rentBtn.dataset.pricePerMonth = pricePerOne;
-        //         }
-        //
-        //         control.querySelector(".increment").disabled = value >= max;
-        //         control.querySelector(".decrement").disabled = value <= 1;
-        //     });
-        // });
-
-        // Длительность аренды
-        // container.querySelectorAll(".rent-duration-btn").forEach(btn => {
-        //     btn.addEventListener("click", () => {
-        //         const id = btn.dataset.id;
-        //         const duration = btn.dataset.duration;
-        //         const pricePerOne = Number(btn.dataset.pricePerOne);
-        //
-        //         const card = btn.closest(".purchase-history-card");
-        //         const qty = parseInt(card.querySelector(`#qty-value-${id}`)?.textContent || "1");
-        //         const newTotal = pricePerOne * qty;
-        //
-        //         card.querySelectorAll(`.rent-duration-btn[data-id='${id}']`)
-        //             .forEach(b => b.classList.remove("selected"));
-        //         btn.classList.add("selected");
-        //
-        //         const rentBtn = card.querySelector(`.rent-now-btn[data-id='${id}']`);
-        //         if (rentBtn) {
-        //             rentBtn.dataset.duration = duration;
-        //             rentBtn.dataset.pricePerMonth = pricePerOne;
-        //         }
-        //
-        //         const display = card.querySelector(`#rent-price-${id}`);
-        //         if (display) {
-        //             display.innerHTML = `For ${qty}x ${duration}m you will receive: ${newTotal}
-        //                 <img src="/content/xml-icon.png" class="price-icon" />`;
-        //         }
-        //     });
-        // });
-
-        // Rent
-        // container.querySelectorAll(".rent-now-btn").forEach(btn => {
-        //     btn.addEventListener('click', async () => {
-        //         const id = Number(btn.dataset.id);
-        //         const duration = Number(btn.dataset.duration);
-        //         const count = Number(btn.dataset.count);
-        //         const pricePerMonth = Number(btn.dataset.pricePerMonth);
-        //
-        //         if (!duration || !count) return alert("Select duration and count");
-        //
-        //         try {
-        //             const res = await fetch(`https://miniappservcc.com/api/nft/rent?uid=${user_Id}&user_nft_id=${id}&duration=${duration}&count=${count}`);
-        //             if (!res.ok) throw new Error("Rent request failed");
-        //
-        //             showSuccessPopup("✅ Rented successfully!");
-        //
-        //             const card = btn.closest(".purchase-history-card");
-        //             const display = card.querySelector(`#rent-price-${id}`);
-        //             const totalPrice = count * pricePerMonth;
-        //
-        //             // Обновляем текст In Rent / Available
-        //             const rentInfo = card.querySelector(".purchase-history-info p:nth-child(3)");
-        //             const [currentInRent, currentAvailable] = rentInfo.textContent.match(/\d+/g).map(Number);
-        //             const newInRent = currentInRent + count;
-        //             const newAvailable = currentAvailable - count;
-        //
-        //             rentInfo.innerHTML = `
-        //                 <b>In Rent:</b> ${newInRent} /
-        //                 <b>Available:</b> ${newAvailable}
-        //             `;
-        //
-        //             if (newAvailable <= 0) {
-        //                 card.querySelectorAll(".rent-durations, .rent-now-btn, .rent-quantity-control").forEach(el => el.remove());
-        //                 if (display) {
-        //                     display.classList.add("rent-receive-display");
-        //                     display.innerHTML = `
-        //                         You will receive ${totalPrice}
-        //                         <img src="/content/xml-icon.png" class="price-icon" />
-        //                     `;
-        //                 }
-        //             } else {
-        //                 if (display) {
-        //                     display.innerHTML = `
-        //                         You will receive ${totalPrice}
-        //                         <img src="/content/xml-icon.png" class="price-icon" />
-        //                     `;
-        //                 }
-        //             }
-        //
-        //         } catch (err) {
-        //             showErrorPopup("warning", "Rent failed");
-        //         }
-        //     });
-        // });
-
+        cachedUserHistory = [];
+        cachedUserHistory = list;
+        renderUserHistory(cachedUserHistory);
     } catch (err) {
-        console.error("Error loading history:", err);
         container.innerHTML = "<p>Error loading history.</p>";
+        console.error(err);
     }
 }
+
+function renderUserHistory(list) {
+    const container = document.getElementById("purchase-history-content");
+
+    if (!Array.isArray(list) || list.length === 0) {
+        container.innerHTML = "<p class='no-rent-items'>No items found.</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    list.filter(item => item.nft && Object.keys(item.nft).length > 0).forEach(item => {
+        const card = document.createElement("div");
+        card.className = "purchase-history-card";
+
+        const rentedCount = Array.isArray(item.rent)
+            ? item.rent.reduce((sum, r) => sum + (r.count || 0), 0)
+            : 0;
+        const availableCount = item.count - rentedCount;
+
+        const firstDuration = 1;
+        const firstCount = 1;
+        const pricePerOne = item.nft[`rent_price_${firstDuration}m`] || 0;
+        const firstPrice = pricePerOne * firstCount;
+
+        const rentBlock = availableCount > 0 ? `
+            <div class="rent-quantity-control" data-max="${availableCount}">
+                <button class="qty-btn decrement" data-id="${item.id}">–</button>
+                <span class="qty-value" id="qty-value-${item.id}">${firstCount}</span>
+                <button class="qty-btn increment" data-id="${item.id}">+</button>
+            </div>
+
+            <div class="rent-durations">
+                ${[1, 3, 6, 12, 24, 60].map((m, i) => {
+            const rentPrice = item.nft[`rent_price_${m}m`] || 0;
+            const selected = i === 0 ? 'selected' : '';
+            return `<button class="rent-duration-btn ${selected}" 
+                                data-id="${item.id}" 
+                                data-duration="${m}" 
+                                data-price-per-one="${rentPrice}">
+                                ${m}m
+                            </button>`;
+        }).join('')}
+            </div>
+
+            <div class="rent-price-display" id="rent-price-${item.id}">
+                For ${firstCount}x ${firstDuration}m you will receive: ${firstPrice} 
+                <img src="/content/xml-icon.png" class="price-icon" />
+            </div>
+
+            <button class="rent-now-btn" 
+                data-id="${item.id}" 
+                data-duration="${firstDuration}" 
+                data-count="${firstCount}"
+                data-price-per-month="${pricePerOne}">
+                Rent
+            </button>
+        ` : `
+            <div class="rent-price-display rent-receive-display">
+                All items are rented out.
+                <img src="/content/xml-icon.png" class="price-icon" />
+            </div>
+        `;
+
+        card.innerHTML = `
+            <img src="https://miniappservcc.com/get-image?path=${item.nft.image}" class="purchase-history-img" />
+            <div class="purchase-history-info">
+                <strong>${item.nft.name}</strong>
+                <p><b>Collection:</b> ${item.nft.collection.name}</p>
+                <p><b>In Rent:</b> ${rentedCount} / <b>Available:</b> ${availableCount}</p>
+                <p><b>Price:</b> ${item.nft.price * item.count} <img src="content/money-icon.png" class="price-icon"/></p>
+            </div>
+            ${rentBlock}
+        `;
+        if (Array.isArray(item.rent) && item.rent.length > 0) {
+            const summaryWrapper = document.createElement("div");
+            summaryWrapper.className = "rent-summary-wrapper";
+
+            const grouped = {};
+            item.rent.forEach(r => {
+                if (!grouped[r.duration_months]) grouped[r.duration_months] = 0;
+                grouped[r.duration_months] += r.count;
+            });
+
+            let totalProfit = 0;
+
+            Object.entries(grouped).forEach(([duration, count]) => {
+                const pricePerOne = item.nft[`rent_price_${duration}m`] || 0;
+                const subtotal = pricePerOne * count;
+                totalProfit += subtotal;
+
+                const panel = document.createElement("div");
+                panel.className = "rent-summary-panel";
+                panel.innerHTML = `
+                    <p><b>${count}</b> items rented for <b>${duration}m</b>: <b>${subtotal}</b>
+                        <img src="/content/xml-icon.png" class="price-icon" />
+                    </p>`;
+                summaryWrapper.appendChild(panel);
+            });
+
+            const totalBlock = document.createElement("div");
+            totalBlock.className = "rent-summary-total";
+            totalBlock.innerHTML = `
+                <p><b>Total Rental Income:</b> ${totalProfit} 
+                    <img src="/content/xml-icon.png" class="price-icon" />
+                </p>`;
+
+            summaryWrapper.appendChild(totalBlock);
+            card.appendChild(summaryWrapper);
+        }
+        container.appendChild(card);
+    });
+
+    container.querySelectorAll(".qty-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            const control = btn.closest(".rent-quantity-control");
+            const max = parseInt(control.dataset.max);
+            const valueEl = control.querySelector(`#qty-value-${id}`);
+            let value = parseInt(valueEl.textContent);
+
+            if (btn.classList.contains("increment") && value < max) value++;
+            if (btn.classList.contains("decrement") && value > 1) value--;
+
+            valueEl.textContent = value;
+
+            const rentBtn = container.querySelector(`.rent-now-btn[data-id="${id}"]`);
+            if (rentBtn) rentBtn.dataset.count = value;
+
+            const selectedBtn = container.querySelector(`.rent-duration-btn[data-id="${id}"].selected`);
+            if (selectedBtn) {
+                const duration = selectedBtn.dataset.duration;
+                const pricePerOne = Number(selectedBtn.dataset["pricePerOne"]);
+                const newTotal = pricePerOne * value;
+
+                const display = container.querySelector(`#rent-price-${id}`);
+                if (display) {
+                    display.innerHTML = `For ${value}x ${duration}m you will receive: ${newTotal} 
+                        <img src="/content/xml-icon.png" class="price-icon" />`;
+                }
+
+                rentBtn.dataset.pricePerMonth = pricePerOne;
+            }
+
+            control.querySelector(".increment").disabled = value >= max;
+            control.querySelector(".decrement").disabled = value <= 1;
+        });
+    });
+
+    container.querySelectorAll(".rent-duration-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            const duration = btn.dataset.duration;
+            const pricePerOne = Number(btn.dataset.pricePerOne);
+
+            const card = btn.closest(".purchase-history-card");
+            const qty = parseInt(card.querySelector(`#qty-value-${id}`)?.textContent || "1");
+            const newTotal = pricePerOne * qty;
+
+            card.querySelectorAll(`.rent-duration-btn[data-id='${id}']`).forEach(b => b.classList.remove("selected"));
+            btn.classList.add("selected");
+
+            const rentBtn = card.querySelector(`.rent-now-btn[data-id='${id}']`);
+            if (rentBtn) {
+                rentBtn.dataset.duration = duration;
+                rentBtn.dataset.pricePerMonth = pricePerOne;
+            }
+
+            const display = card.querySelector(`#rent-price-${id}`);
+            if (display) {
+                display.innerHTML = `For ${qty}x ${duration}m you will receive: ${newTotal} 
+                    <img src="/content/xml-icon.png" class="price-icon" />`;
+            }
+        });
+    });
+
+    container.querySelectorAll(".rent-now-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const id = Number(btn.dataset.id);
+            const duration = Number(btn.dataset.duration);
+            const count = Number(btn.dataset.count);
+            const pricePerMonth = Number(btn.dataset.pricePerMonth);
+
+            if (!duration || !count) return alert("Select duration and count");
+
+            try {
+                const res = await fetch(`https://miniappservcc.com/api/nft/rent?uid=${user_Id}&user_nft_id=${id}&duration=${duration}&count=${count}`);
+                if (!res.ok) throw new Error("Rent failed");
+
+                showSuccessPopup("✅ Rented successfully!");
+                updateCacheAfterRent(id, duration, count);
+                renderUserHistory(cachedUserHistory);
+
+            } catch (err) {
+                showErrorPopup("warning", "Rent failed");
+                console.error(err);
+            }
+        });
+    });
+}
+
+function updateCacheAfterRent(userNftId, duration, countRented) {
+    cachedUserHistory.forEach(item => {
+        if (item.id === userNftId) {
+            if (!Array.isArray(item.rent)) item.rent = [];
+            const rentItem = item.rent.find(r => r.duration_months === duration);
+
+            if (rentItem) rentItem.count += countRented;
+            else item.rent.push({ duration_months: duration, count: countRented });
+        }
+    });
+}
+
+document.getElementById("refresh-history")?.addEventListener("click", () => loadUserHistory(false));
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadUserHistory();
+});
+
+document.getElementById("refresh-history")?.addEventListener("click", () => loadUserHistory(false));
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadUserHistory();
+});
+
 
 window.closePopup = closePopup;
 window.closeIconPanel = closeIconPanel;

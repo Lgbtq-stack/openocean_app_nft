@@ -154,3 +154,58 @@
     background: #4c9aff;
     color: white;
 }
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 15px 0;
+    justify-content: center;
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#nft-qty-value {
+    font-size: 18px;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+.currency-toggle {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.currency-option {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.currency-option.selected {
+    background-color: #4a90e2;
+    color: white;
+    font-weight: bold;
+}
+
+.total-price-display {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+
+}

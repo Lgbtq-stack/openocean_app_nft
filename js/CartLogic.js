@@ -395,6 +395,7 @@ window.completePurchase = completePurchase;
 window.handleSuccessfulPurchase = handleSuccessfulPurchase;
 
 document.addEventListener('DOMContentLoaded', updateCartIndicator);
+
 document.querySelectorAll('.rent-now-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
         const nftId = btn.dataset.id;

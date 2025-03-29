@@ -53,8 +53,58 @@ export async function showNFTDetails(id, dataSource) {
 
     document.querySelector('.close-panel')?.addEventListener('click', closeNFTDetails, { once: true });
 
+    let quantity = 1;
+    const qtyValue = document.getElementById("nft-qty-value");
+    if (qtyValue) qtyValue.textContent = quantity;
+
     setTimeout(() => {
         const addToCartBtn = document.querySelector('.add-to-cart-button');
+
+        let quantity = 1;
+
+        let selectedCurrency = 'usd';
+
+        document.getElementById("currency-usd").classList.add("selected");
+        document.getElementById("currency-nft").classList.remove("selected");
+        function updateTotalPrice() {
+            const price = selectedCurrency === 'usd' ? nft.price : 1;
+            const total = price * quantity;
+
+            document.getElementById("total-price-value").textContent = total;
+            const icon = document.getElementById("total-price-icon");
+            icon.src = selectedCurrency === 'usd' ? 'content/money-icon.png' : 'content/nft_extra.png';
+        }
+
+        updateTotalPrice();
+
+        document.getElementById("currency-usd")?.addEventListener("click", () => {
+            selectedCurrency = 'usd';
+            document.getElementById("currency-usd").classList.add("selected");
+            document.getElementById("currency-nft").classList.remove("selected");
+            updateTotalPrice();
+        });
+
+        document.getElementById("currency-nft")?.addEventListener("click", () => {
+            selectedCurrency = 'nft';
+            document.getElementById("currency-nft").classList.add("selected");
+            document.getElementById("currency-usd").classList.remove("selected");
+            updateTotalPrice();
+        });
+
+        document.getElementById("nft-qty-increment")?.addEventListener("click", () => {
+            quantity++;
+            qtyValue.textContent = quantity;
+            updateTotalPrice();
+        });
+
+        document.getElementById("nft-qty-decrement")?.addEventListener("click", () => {
+            if (quantity > 1) {
+                quantity--;
+                qtyValue.textContent = quantity;
+                updateTotalPrice();
+            }
+        });
+
         if (addToCartBtn) {
             addToCartBtn.onclick = () => {
                 Cart.addItem({
@@ -63,7 +113,8 @@ export async function showNFTDetails(id, dataSource) {
                     image: nft.image,
                     collection: nft.collection || 'Unknown',
                     price: nft.price,
-                    count: 1,
+                    count: quantity,
+                    moneyType: selectedCurrency,
                     rent_price_1m: nft.rent_price_1m,
                     rent_price_3m: nft.rent_price_3m,
                     rent_price_6m: nft.rent_price_6m,
@@ -75,6 +126,7 @@ export async function showNFTDetails(id, dataSource) {
                 document.getElementById('cart-added-popup')?.classList.remove('hidden');
             };
         }
+
 
         document.querySelector('.cart-popup-continue')?.addEventListener('click', () => {
             document.getElementById('cart-added-popup')?.classList.add('hidden');
