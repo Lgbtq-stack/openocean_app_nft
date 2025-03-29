@@ -508,8 +508,12 @@
     color: var(--white);
     white-space: nowrap;
     text-align: center;
+
 }
 
+.rent-now-btn {
+    margin-bottom: 10px;
+}
 
 .rent-price-display .price-icon {
     width: 26px;
