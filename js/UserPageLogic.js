@@ -65,16 +65,18 @@ function renderUserProgressLevel(user) {
         return;
     }
 
-    const maxRangeStr = levelData.range.split("–")[1].trim().replace(/,/g, "");
-    const maxRange = parseInt(maxRangeStr, 10);
+    const [rangeMin, rangeMax] = levelData.range
+        .split(/[-–—]/)
+        .map(val => parseInt(val.trim().replace(/,/g, "")));
 
     const totalDeposit = user.total_deposit || 0;
-    const progress = Math.min((totalDeposit / maxRange) * 100, 100);
+    const progress = Math.min((totalDeposit / rangeMax) * 100, 100);
+    const remaining = Math.max(0, rangeMax - totalDeposit);
 
     progressEl.innerHTML = "";
 
     const levelSpan = document.createElement("span");
-    levelSpan.textContent = `Current Level: ${user.level}`;
+    levelSpan.innerHTML = `Level: ${user.level} – Remaining to next level: ${Math.round(remaining).toLocaleString()} <img src="content/money-icon.png" class="price-icon"/>`;
 
     const progressBar = document.createElement("div");
     progressBar.className = "progress-bar";
@@ -98,7 +100,6 @@ function renderUserProgressLevel(user) {
 
     const arrow = document.createElement("span");
     arrow.className = "arrow-icon";
-    // arrow.textContent = " 🔽";
 
     toggle.appendChild(toggleText);
     toggle.appendChild(arrow);
@@ -114,21 +115,15 @@ function renderUserProgressLevel(user) {
     progressEl.appendChild(progressBar);
     progressEl.appendChild(benefitsWrapper);
 
-    // toggle.addEventListener('click', () => {
-    //     benefitsWrapper.classList.toggle('open');
-    //     benefitsWrapper.classList.toggle('closed');
-    //     arrow.style.transform = benefitsWrapper.classList.contains('open') ? "rotate(180deg)" : "rotate(0deg)";
-    // });
-
-    document.getElementById("add-funds-btn").addEventListener("click", () => {
+    document.getElementById("add-funds-btn")?.addEventListener("click", () => {
         showRechargeChoicePopup();
     });
 
-    document.getElementById("history-btn").addEventListener("click", () => {
+    document.getElementById("history-btn")?.addEventListener("click", () => {
         showPurchaseHistoryPage();
     });
 
-    document.getElementById("deposit-history-btn").addEventListener("click", () => {
+    document.getElementById("deposit-history-btn")?.addEventListener("click", () => {
         showDepositHistoryPage();
     });
 }

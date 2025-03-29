@@ -5,18 +5,18 @@ import {showRechargeChoicePopup} from "./UserPageLogic.js";
 export async function loadHomepageLevelSummary() {
     const progressFill = document.getElementById("summary-progress-fill");
     const bonusesEl = document.getElementById("summary-bonuses");
+    const progressHeading = document.getElementById("level-progress");
 
     try {
         const res = await fetch(`https://miniappservcc.com/api/user?uid=${user_Id}`);
         if (!res.ok) throw new Error("User fetch failed");
 
         const user = await res.json();
-
-        // renderLevelButton(user.level);
+        const currentLevelNumber = parseInt(user.level);
 
         const levelData = levelsConfig.find(l => {
             const levelNum = parseInt(l.level.toString().replace(/\D/g, ''));
-            return levelNum === parseInt(user.level.toString().replace(/\D/g, ''));
+            return levelNum === currentLevelNumber;
         });
 
         if (!levelData) {
@@ -24,29 +24,32 @@ export async function loadHomepageLevelSummary() {
             return;
         }
 
-        const maxRange = parseInt(levelData.range.split(/[-–—]/)[1].trim().replace(/,/g, ""));
-        const totalDeposit = user.total_deposit || 0;
-        const progress = Math.min((totalDeposit / maxRange) * 100, 100);
+        const [rangeMin, rangeMax] = levelData.range
+            .split(/[-–—]/)
+            .map(val => parseInt(val.trim().replace(/,/g, "")));
+
+        const totalDeposit = parseFloat(user.total_deposit || 0);
+        const progress = Math.min((totalDeposit / rangeMax) * 100, 100);
+        const remaining = Math.max(0, rangeMax - totalDeposit);
 
         progressFill.style.width = `${progress}%`;
+
         bonusesEl.innerHTML = levelData.description?.map(line => `<div>${line}</div>`).join("") || "No bonuses.";
 
-        document.getElementById("add-fund-btn").addEventListener("click", () => {
+        if (progressHeading) {
+            progressHeading.innerHTML = `Level ${currentLevelNumber} – Remaining to next level: ${Math.round(remaining).toLocaleString()} <img src="content/money-icon.png" class="price-icon"/>`;
+        }
+
+        document.getElementById("add-fund-btn")?.addEventListener("click", () => {
             showRechargeChoicePopup();
         });
 
-        // document.getElementById("see-all-level-home").addEventListener("click", () => {
-        //     const list = document.getElementById("all-level-list");
-        //     list.classList.toggle("expanded");
-        //
-        //     const toggleText = document.getElementById("see-all-level-home");
-        //     toggleText.textContent = list.classList.contains("expanded") ? "🔼 Hide Levels" : "🔽 Show All Levels";
-        // });
     } catch (err) {
         console.error("Homepage level summary error:", err);
         if (bonusesEl) bonusesEl.textContent = "Error loading data.";
     }
 }
+
 //
 // function renderLevelButton(currentLevel) {
 //     const levelList = document.getElementById("all-level-list");
