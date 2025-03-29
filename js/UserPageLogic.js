@@ -121,7 +121,7 @@ function renderUserProgressLevel(user) {
     // });
 
     document.getElementById("add-funds-btn").addEventListener("click", () => {
-        showRechargePopup();
+        showRechargeChoicePopup();
     });
 
     document.getElementById("history-btn").addEventListener("click", () => {
@@ -173,20 +173,47 @@ function renderLevelButtons(currentLevel) {
     });
 }
 
+export function showRechargeChoicePopup() {
+    const overlay = document.getElementById("add-funds-popup");
+    overlay.style.display = "flex";
+}
+
 export function showRechargePopup() {
+    closePopup();
     const overlay = document.getElementById("popup-overlay");
     const content = document.getElementById("recharge-content");
     const memoField = document.getElementById("memo-value");
+
 
     memoField.textContent = user_Id;
 
     overlay.style.display = "flex";
     content.style.display = "block";
 }
+export function showRechargeBonusPopup() {
+    closePopup();
+    const overlay = document.getElementById("popup-overlay-bonus");
+    const content = document.getElementById("recharge-content-bonus");
+    const memoField = document.getElementById("memo-value-bonus");
+
+    memoField.textContent = user_Id;
+
+    overlay.style.display = "flex";
+    content.style.display = "block";
+
+}
+
+window.showRechargePopup = showRechargePopup;
+window.showRechargeBonusPopup = showRechargeBonusPopup;
+window.closePopup = closePopup;
 
 function closePopup() {
     document.getElementById("popup-overlay").style.display = "none";
     document.getElementById("recharge-content").style.display = "none";
+    document.getElementById("popup-overlay-bonus").style.display = "none";
+    document.getElementById("recharge-content-bonus").style.display = "none";
+    document.getElementById("add-funds-popup").style.display = "none";
+
 }
 
 async function selectIcon(iconId) {
@@ -273,7 +300,7 @@ function renderUserHistory(list) {
     const container = document.getElementById("purchase-history-content");
 
     if (!Array.isArray(list) || list.length === 0) {
-        container.innerHTML = "<p class='no-rent-items'>No items found.</p>";
+        container.innerHTML = "<p class='no-rent-items'>No NFT found.</p>";
         return;
     }
 
@@ -299,6 +326,10 @@ function renderUserHistory(list) {
                 <span class="qty-value" id="qty-value-${item.id}">${firstCount}</span>
                 <button class="qty-btn increment" data-id="${item.id}">+</button>
             </div>
+            
+            <div class="rent-quantity-control" data-max="${availableCount}">
+                <span class="rent-text">Rent out your NFT: </span>
+            </div>
 
             <div class="rent-durations">
                 ${[1, 3, 6, 12, 24, 60].map((m, i) => {
@@ -314,7 +345,7 @@ function renderUserHistory(list) {
             </div>
 
             <div class="rent-price-display" id="rent-price-${item.id}">
-                For ${firstCount}x ${firstDuration}m you will receive: ${firstPrice} 
+                Your monthly rent: ${firstPrice} 
                 <img src="content/xml-icon.png" class="price-icon" />
             </div>
 
@@ -327,7 +358,7 @@ function renderUserHistory(list) {
             </button>
         ` : `
             <div class="rent-price-display rent-receive-display">
-                All items are rented out.
+                All NFT are rented out.
                 <img src="content/xml-icon.png" class="price-icon" />
             </div>
         `;
@@ -362,7 +393,7 @@ function renderUserHistory(list) {
                 const panel = document.createElement("div");
                 panel.className = "rent-summary-panel";
                 panel.innerHTML = `
-                    <p><b>${count}</b> items rented for <b>${duration}m</b>: <b>${subtotal}</b>
+                    <p><b>${count}</b> NFT rented for <b>${duration}m</b>: <b>${subtotal}</b>
                         <img src="content/xml-icon.png" class="price-icon" />
                     </p>`;
                 summaryWrapper.appendChild(panel);

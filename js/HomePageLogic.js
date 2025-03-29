@@ -1,6 +1,6 @@
 import { user_Id } from './index.js';
 import { levelsConfig } from './user_level_bonus_config.js';
-import {showRechargePopup} from "./UserPageLogic.js";
+import {showRechargeChoicePopup} from "./UserPageLogic.js";
 
 export async function loadHomepageLevelSummary() {
     const progressFill = document.getElementById("summary-progress-fill");
@@ -32,7 +32,7 @@ export async function loadHomepageLevelSummary() {
         bonusesEl.innerHTML = levelData.description?.map(line => `<div>${line}</div>`).join("") || "No bonuses.";
 
         document.getElementById("add-fund-btn").addEventListener("click", () => {
-            showRechargePopup();
+            showRechargeChoicePopup();
         });
 
         // document.getElementById("see-all-level-home").addEventListener("click", () => {
