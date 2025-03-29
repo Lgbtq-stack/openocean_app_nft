@@ -436,7 +436,7 @@ function renderUserHistory(list) {
 
                 const display = container.querySelector(`#rent-price-${id}`);
                 if (display) {
-                    display.innerHTML = `For ${value}x ${duration}m you will receive: ${newTotal} 
+                    display.innerHTML = `Your monthly rent: ${newTotal}
                         <img src="content/xml-icon.png" class="price-icon" />`;
                 }
 
@@ -469,7 +469,7 @@ function renderUserHistory(list) {
 
             const display = card.querySelector(`#rent-price-${id}`);
             if (display) {
-                display.innerHTML = `For ${qty}x ${duration}m you will receive: ${newTotal} 
+                display.innerHTML = `Your monthly rent: ${newTotal} 
                     <img src="content/xml-icon.png" class="price-icon" />`;
             }
         });

@@ -427,7 +427,6 @@
 .purchase-history-card {
     display: flex;
     flex-direction: column;
-
     gap: 16px;
     background: #fafafa;
     padding: 16px;
@@ -477,13 +476,11 @@
 
 .rent-durations {
     display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
     flex-wrap: wrap;
 }
 
 .rent-duration-btn {
-    padding: 6px 10px;
+    padding: 6px 5px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background: #fff;
