@@ -315,7 +315,7 @@ function renderUserHistory(list) {
 
             <div class="rent-price-display" id="rent-price-${item.id}">
                 For ${firstCount}x ${firstDuration}m you will receive: ${firstPrice} 
-                <img src="/content/xml-icon.png" class="price-icon" />
+                <img src="content/xml-icon.png" class="price-icon" />
             </div>
 
             <button class="rent-now-btn" 
@@ -328,7 +328,7 @@ function renderUserHistory(list) {
         ` : `
             <div class="rent-price-display rent-receive-display">
                 All items are rented out.
-                <img src="/content/xml-icon.png" class="price-icon" />
+                <img src="content/xml-icon.png" class="price-icon" />
             </div>
         `;
 
@@ -363,7 +363,7 @@ function renderUserHistory(list) {
                 panel.className = "rent-summary-panel";
                 panel.innerHTML = `
                     <p><b>${count}</b> items rented for <b>${duration}m</b>: <b>${subtotal}</b>
-                        <img src="/content/xml-icon.png" class="price-icon" />
+                        <img src="content/xml-icon.png" class="price-icon" />
                     </p>`;
                 summaryWrapper.appendChild(panel);
             });
@@ -372,7 +372,7 @@ function renderUserHistory(list) {
             totalBlock.className = "rent-summary-total";
             totalBlock.innerHTML = `
                 <p><b>Total Rental Income:</b> ${totalProfit} 
-                    <img src="/content/xml-icon.png" class="price-icon" />
+                    <img src="content/xml-icon.png" class="price-icon" />
                 </p>`;
 
             summaryWrapper.appendChild(totalBlock);
@@ -406,7 +406,7 @@ function renderUserHistory(list) {
                 const display = container.querySelector(`#rent-price-${id}`);
                 if (display) {
                     display.innerHTML = `For ${value}x ${duration}m you will receive: ${newTotal} 
-                        <img src="/content/xml-icon.png" class="price-icon" />`;
+                        <img src="content/xml-icon.png" class="price-icon" />`;
                 }
 
                 rentBtn.dataset.pricePerMonth = pricePerOne;
@@ -439,7 +439,7 @@ function renderUserHistory(list) {
             const display = card.querySelector(`#rent-price-${id}`);
             if (display) {
                 display.innerHTML = `For ${qty}x ${duration}m you will receive: ${newTotal} 
-                    <img src="/content/xml-icon.png" class="price-icon" />`;
+                    <img src="content/xml-icon.png" class="price-icon" />`;
             }
         });
     });
