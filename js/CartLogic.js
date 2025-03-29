@@ -168,8 +168,6 @@ export function renderCart() {
                     await delay(600);
                 }
 
-                Cart.clearCart();
-                renderCart();
                 handleSuccessfulPurchase();
             });
         });
@@ -372,6 +370,12 @@ function handleSuccessfulPurchase() {
     section.style.display = 'block';
 }
 
+export function completePurchase() {
+
+    Cart.clearCart();
+    renderCart();
+    setActiveTab(document.querySelector('.nav-item.trending'));
+}
 
 export function hideSuccessfulPurchase() {
     const section = document.getElementById('purchase-success');
@@ -386,6 +390,7 @@ export function hideSuccessfulPurchase() {
 window.updateItemCount = updateItemCount;
 window.Cart = Cart;
 window.renderCart = renderCart;
+window.completePurchase = completePurchase;
 
 window.handleSuccessfulPurchase = handleSuccessfulPurchase;
 
