@@ -13,11 +13,12 @@
 
 .nft-details-panel.show {
     display: flex;
+
 }
 
 .panel-content {
     overflow-y: auto;
-    padding: 20px ;
+    padding: 20px 20px 100px;
     box-sizing: border-box;
     max-width: 600px;
     margin: 0 10px;
@@ -185,7 +186,6 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-top: 10px;
 }
 
 .currency-option {
