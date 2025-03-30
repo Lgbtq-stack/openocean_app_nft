@@ -537,16 +537,19 @@ function renderNFTList(items) {
             <p class="nft-price">${item.price} <img src="content/money-icon.png" alt="Money Icon" class="price-icon" /></p>
             <p>Collection: ${item.collection || 'Unknown'}</p>
           </div>
-          <button class="details-button" onclick='showNFTDetails(${item.id}, ${JSON.stringify(items)})'>
-            Details
-          </button>
         `;
 
+        const button = document.createElement("button");
+        button.className = "details-button";
+        button.textContent = "Details";
+        button.addEventListener("click", () => {
+            showNFTDetails(item.id, items);
+        });
+
+        card.appendChild(button);
         container.appendChild(card);
     });
 }
-
-
 
 window.sortCategoryList = sortCategoryList;
 window.closeSortPopup = closeSortPopup;
