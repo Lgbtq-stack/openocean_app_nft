@@ -1,7 +1,6 @@
 import {user_Id} from "./index.js";
 
 export async function showPurchaseHistoryPage() {
-
     const section = document.getElementById("history-page");
     const container = document.getElementById("history-list");
 
@@ -26,8 +25,10 @@ export async function showPurchaseHistoryPage() {
                 ? "Money Icon"
                 : "NFT Extra Icon";
 
+            const itemClass = item.nft.isLimited ? "history-item limited" : "history-item";
+
             return `
-                <div class="history-item">
+                <div class="${itemClass}">
                     <img src="https://miniappservcc.com/get-image?path=${item.nft.image}" alt="${item.name}" class="history-image">
                     <div class="history-info">
                         <h4>${item.nft.name}</h4>

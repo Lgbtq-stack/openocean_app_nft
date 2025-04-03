@@ -1,7 +1,8 @@
 .category-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+    gap: 15px;
+    padding: 0 10px;
 }
 
 .nft-card {
@@ -13,6 +14,11 @@
     overflow: hidden;
     padding: 12px;
 }
+
+.nft-card.limited{
+    box-shadow: 0 0 8px gold;
+}
+
 .category-list .card {
     margin: 0;
 }
@@ -73,6 +79,15 @@
     width: 100%;
 }
 
+.details-button.limited {
+    box-shadow: 0 0 8px gold;
+
+    background: rgb(255,253,194);
+    background: linear-gradient(90deg, rgba(255,253,194,1) 0%, rgba(255,224,0,1) 50%, rgba(255,253,194,1) 100%);
+
+    color: var(--black);
+}
+
 .details-button img {
     width: 20px;
     margin-right: 6px;
@@ -83,7 +98,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 0;
+    padding: 6px 0 12px;
     position: relative;
 }
 
@@ -114,6 +129,7 @@
     flex-grow: 1;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    padding: 10px 0;
 }
 
 .slider-wrapper::-webkit-scrollbar {
@@ -138,6 +154,13 @@
     white-space: nowrap;
 }
 
+.slider-category-item.limited {
+    box-shadow: 0 0 15px gold;
+    border: 2px solid gold;
+    color: black;
+
+}
+
 .slider-category-item:hover {
     background-color: #f5f5f5;
 }
@@ -146,6 +169,12 @@
     background-color: #4a90e2;
     color: #fff;
     border-color: #4a90e2;
+}
+
+.slider-category-item.active-category.limited {
+    border-color: transparent;
+    background-color: #f6dc4e;
+    color: #000;
 }
 
 .category-button {
@@ -192,6 +221,22 @@
 .pagination-btn.active {
     background-color: #4a90e2;
     color: white;
+    font-weight: bold;
+}
+
+#pagination-container.limited .pagination-btn.active {
+    background: linear-gradient(90deg, rgba(255,253,194,1) 0%, rgba(255,224,0,1) 50%, rgba(255,253,194,1) 100%);
+
+    color: black;
+    font-weight: bold;
+}
+
+#pagination-container.limited .pagination-btn,
+#pagination-container .pagination-btn.limited {
+    background: transparent;
+
+    color: black;
+    border: 1px solid gold;
     font-weight: bold;
 }
 

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles/UtilitiesStyle.css">
     <link rel="stylesheet" href="styles/ErrorPopupStyle.css">
     <link rel="stylesheet" href="styles/ProductDetailsStyle.css">
+    <link rel="stylesheet" href="styles/LimitedProductDetailStyle.css">
     <link rel="stylesheet" href="styles/PurchaseHandlerStyle.css">
     <link rel="stylesheet" href="styles/HistoryPageStyle.css">
     <link rel="stylesheet" href="styles/DepositHistoryPageStyle.css">
@@ -134,7 +135,7 @@
                 <img src="content/user.png" alt="User Photo" class="user-photo">
             </button>
 
-            <h3>User</h3>
+            <h3>Alex Johnson</h3>
 <!--            <p class="bio">NFT Enthusiast & Collector</p>-->
 
             <div class="balance-section">
@@ -241,7 +242,7 @@
 <!-- Utilities -->
 
 <div class="nft-details-panel" id="nftDetailsPanel">
-    <div class="panel-content">
+    <div class="panel-content" id="panel-content">
         <button class="close-panel" onclick="closeNFTDetails()">← Back</button>
         <img id="nft-image" class="nft-image" src="" alt="NFT Image">
         <div id="nft-tags" class="nft-tag-container"></div>
@@ -278,6 +279,52 @@
         </div>
 
         <button class="add-to-cart-button">Add to Cart</button>
+    </div>
+</div>
+
+<div class="limited-nft-details-panel" id="limited-nftDetailsPanel">
+    <div class="limited-panel-content">
+        <button class="limited-close-panel">← Back</button>
+
+        <img id="limited-nft-image" class="limited-nft-image" src="" alt="NFT Image" />
+
+        <div id="limited-nft-tags" class="limited-nft-tag-container"></div>
+
+        <h2 id="limited-nft-title" class="limited-nft-title">NFT Title</h2>
+
+        <p id="limited-nft-description" class="limited-nft-description">Description</p>
+
+        <div class="limited-info-row">
+            <span class="limited-collection-title"><b>💼 Collection:</b></span>
+            <span id="limited-nft-collection" class="limited-nft-collection">Artisan Name</span>
+        </div>
+
+        <span class="limited-separator"></span>
+
+        <div class="limited-info-row">
+            <span class="limited-country-title"><b>🌍 Country:</b></span>
+            <span id="limited-nft-country" class="limited-nft-country">France</span>
+        </div>
+
+        <span class="limited-separator"></span>
+
+        <div class="limited-info-row">
+            <span class="limited-price-title"><b>💰 Price:</b></span>
+            <span id="limited-nft-price" class="limited-nft-price"></span>
+        </div>
+
+        <div class="limited-quantity-controls" id="limited-quantity-controls">
+            <button class="limited-qty-btn" id="limited-nft-qty-decrement">−</button>
+            <span id="limited-nft-qty-value">1</span>
+            <button class="limited-qty-btn" id="limited-nft-qty-increment">+</button>
+        </div>
+
+        <div class="limited-total-price-display">
+            Total: <span id="limited-total-price-value">0</span>
+            <img src="content/money-icon.png" class="limited-price-icon" />
+        </div>
+
+        <button class="limited-purchase-button" id="limited-purchase-button">Purchase</button>
     </div>
 </div>
 
@@ -411,6 +458,17 @@
         </div>
     </div>
 </div>
+
+<div id="are-you-sure-popup" class="are-you-sure-popup-overlay hidden">
+    <div class="are-you-sure-popup-box">
+        <p class="are-you-sure-popup-message" id="are-you-sure-message"></p>
+        <div class="are-you-sure-popup-actions">
+            <button class="are-you-sure-popup-btn are-you-sure-popup-close">Cancel</button>
+            <button class="are-you-sure-popup-btn are-you-sure-popup-continue">Confirm</button>
+        </div>
+    </div>
+</div>
+
 <!-- JS -->
 
 <script type="module" src="js/index.js"></script>

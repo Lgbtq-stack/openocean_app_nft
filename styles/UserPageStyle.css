@@ -435,6 +435,10 @@
     align-items: center;
 }
 
+.purchase-history-card.limited{
+    box-shadow: 0 0 8px gold;
+}
+
 .purchase-history-img {
     width: 100%;
     border-radius: 10px;
@@ -495,7 +499,6 @@
 }
 
 .rent-price-display {
-
     background-color: var(--primary);
     border-radius: 12px;
     box-shadow: 0 4px 12px var(--bg-color-light);
@@ -505,7 +508,10 @@
     color: var(--white);
     white-space: nowrap;
     text-align: center;
+}
 
+.rent-price-display.limited {
+    background-color: gold;
 }
 
 .rent-now-btn {
@@ -645,4 +651,71 @@
     border-radius: 8px;
     background-color: var(--primary);
     color: white;
+}
+
+.rent-now-btn.limited {
+    background-color: gold;
+    color: black;
+    font-weight: bold;
+    border: 1px solid #c6a700;
+    box-shadow: 0 0 6px gold;
+    transition: all 0.3s ease;
+}
+
+/* Sold Out блок для limited */
+.rent-price-display.limited {
+    background-color: #fff8dc;
+    border: 1px solid gold;
+    color: #444;
+    font-weight: bold;
+}
+
+.rent-quantity-control.limited,
+.rent-durations.limited {
+    border-left: 3px solid gold;
+    padding-left: 10px;
+}
+.rent-summary-wrapper.limited {
+    background-color: rgba(255, 215, 0, 0.05);
+    border-left: 4px solid gold;
+    padding: 8px;
+}
+
+.rent-summary-total.limited {
+    font-weight: bold;
+    color: darkgoldenrod;
+    border-top: 1px dashed gold;
+    margin-top: 10px;
+}
+
+.rent-durations.limited {
+    background-color: rgba(255, 223, 100, 0.1);
+    border: 1px dashed gold;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.qty-btn.limited {
+    background-color: gold;
+    color: black;
+    font-weight: bold;
+    border: 1px solid goldenrod;
+}
+
+.rent-duration-btn.limited {
+    background-color: gold;
+    color: black;
+    border: 1px solid gold;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.rent-duration-btn.limited.selected {
+    background-color: #ffe078;
+    border: 2px solid #b88900;
 }

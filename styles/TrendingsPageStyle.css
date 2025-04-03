@@ -12,7 +12,15 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    margin-bottom: 0
+    margin: 0;
+}
+
+#trending-nfts h2 {
+    margin-bottom: 30px;
+}
+
+#trending-nfts .card.limited{
+    box-shadow: 0 0 8px gold;
 }
 
 #trending-nfts .card img {
@@ -32,13 +40,14 @@
 #trending-nfts .collection {
     font-size: 13px;
     color: var(--text-color);
+    margin: 10px 0;
 }
 
 
 #trending-nfts .card-btn {
     margin-top: auto;
     padding: 6px 12px;
-    background-color: var(--primary);
+    background: var(--primary);
     color: var(--white);
     border: none;
     border-radius: 20px;
@@ -46,6 +55,13 @@
     transition: 0.3s;
     font-weight: bold;
     text-transform: capitalize;
+}
+
+#trending-nfts .card-btn.limited{
+
+    background: rgb(255,253,194);
+    background: linear-gradient(90deg, rgba(255,253,194,1) 0%, rgba(255,224,0,1) 50%, rgba(255,253,194,1) 100%);
+    color: var(--black);
 }
 
 #trending-nfts .price-icon {

@@ -4,7 +4,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--white);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 9998;
 
     display: none;
@@ -208,4 +208,19 @@
     font-size: 18px;
     font-weight: bold;
 
+}
+
+/* Стили для ограниченных карточек */
+.purchased-item-card.limited {
+    border: 2px solid gold;
+    background-color: rgba(255, 215, 0, 0.05);
+    box-shadow: 0 0 10px gold;
+    position: relative;
+}
+
+.view-collection-btn.limited {
+    background-color: gold;
+    color: black;
+    border: 1px solid #c6a700;
+    box-shadow: 0 0 8px gold;
 }

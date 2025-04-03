@@ -1,0 +1,162 @@
+.limited-nft-details-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+
+    display: none;
+}
+
+.limited-nft-details-panel.show {
+    display: flex;
+}
+
+.limited-panel-content {
+    /*background-image: url('/content/gold_texture.png');*/
+    /*background-size: cover;*/
+    /*background-position: center;*/
+    background: #fdfdfd;
+    border-radius: 20px;
+    width: 92%;
+    max-width: 500px;
+    overflow-y: auto;
+
+    padding: 24px 24px 100px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    font-family: 'Segoe UI', sans-serif;
+    color: #000;
+}
+
+/* Back button */
+.limited-close-panel {
+    background: none;
+    border: none;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+/* Image */
+.limited-nft-image {
+    display: block;
+    width: 100%;
+    max-width: 350px; /* или другой нужный предел */
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 0 20px gold;
+    margin: 0 auto 20px;
+    border: solid 5px gold;
+}
+
+
+/* Tags */
+.limited-nft-tag-container {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.limited-nft-tag {
+    display: inline-block;
+    border: solid 3px gold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: black;
+    font-size: 12px;
+    margin: 0 4px;
+}
+
+/* Title + Description */
+.limited-nft-title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.limited-nft-description {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 30px;
+
+    box-sizing: border-box;
+    background-color: white;
+    box-shadow: 0 6px 12px gold;
+    padding: 20px 10px;
+    border-radius: 8px;
+}
+
+/* Info rows (Collection & Price) */
+.limited-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+/* Quantity controls */
+.limited-quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    margin-bottom: 16px;
+    font-size: 18px;
+}
+
+.limited-qty-btn {
+    background-color: rgba(0, 0, 0, 0.0);
+    color: black;
+    border: solid 2px gold;
+    width: 50px;
+    height: 36px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+
+/* Total price */
+.limited-total-price-display {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.limited-price-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.limited-purchase-button {
+    background: rgb(255,252,176);
+    background: linear-gradient(90deg, rgba(255,252,176,1) 0%, rgba(255,224,0,1) 36%, rgba(255,224,0,1) 75%, rgba(255,252,176,1) 100%);
+    color: black;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+}
+
+.limited-separator {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, #ffffff, gold, #ffffff);
+    margin: 12px 0;
+    border-radius: 1px;
+}

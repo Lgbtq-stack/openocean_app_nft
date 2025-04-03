@@ -286,6 +286,8 @@ async function loadUserHistory(useCache = true) {
         do {
             const res = await fetch(`https://miniappservcc.com/api/user/mynft?uid=${user_Id}&page=${page}`);
             const json = await res.json();
+            console.log("NFT page response:", json);
+
             allItems = allItems.concat(json.data);
             totalPages = json.paging.totalPages;
             page++;
@@ -299,6 +301,7 @@ async function loadUserHistory(useCache = true) {
     }
 }
 
+
 function renderUserHistory(list) {
     const container = document.getElementById("purchase-history-content");
 
@@ -311,12 +314,13 @@ function renderUserHistory(list) {
 
     list.filter(item => item.nft && Object.keys(item.nft).length > 0).forEach(item => {
         const card = document.createElement("div");
-        card.className = "purchase-history-card";
+        card.className = "purchase-history-card" + (item.nft.isLimited ? " limited" : "");
 
+        const totalCount = item.nft.isLimited ? item.nft.limitedCount : item.count;
         const rentedCount = Array.isArray(item.rent)
             ? item.rent.reduce((sum, r) => sum + (r.count || 0), 0)
             : 0;
-        const availableCount = item.count - rentedCount;
+        const availableCount = totalCount - rentedCount;
 
         const firstDuration = 1;
         const firstCount = 1;
@@ -324,47 +328,48 @@ function renderUserHistory(list) {
         const firstPrice = pricePerOne * firstCount;
 
         const rentBlock = availableCount > 0 ? `
-            <div class="rent-quantity-control" data-max="${availableCount}">
-                <button class="qty-btn decrement" data-id="${item.id}">–</button>
-                <span class="qty-value" id="qty-value-${item.id}">${firstCount}</span>
-                <button class="qty-btn increment" data-id="${item.id}">+</button>
-            </div>
-            
-            <div class="rent-quantity-control" data-max="${availableCount}">
-                <span class="rent-text">Rent out your NFT: </span>
-            </div>
+    <div class="rent-quantity-control" data-max="${availableCount}">
+        <button class="qty-btn decrement ${item.nft.isLimited ? 'limited' : ''}" data-id="${item.id}">–</button>
+        <span class="qty-value" id="qty-value-${item.id}">${firstCount}</span>
+        <button class="qty-btn increment ${item.nft.isLimited ? 'limited' : ''}" data-id="${item.id}">+</button>
+    </div>
 
-            <div class="rent-durations">
-                ${[1, 3, 6, 12, 24, 60].map((m, i) => {
+    <div class="rent-quantity-control ${item.nft.isLimited ? 'limited' : ''}" data-max="${availableCount}">
+        <span class="rent-text">Rent out your NFT: </span>
+    </div>
+
+    <div class="rent-durations">
+        ${[1, 3, 6, 12, 24, 60].map((m, i) => {
             const rentPrice = item.nft[`rent_price_${m}m`] || 0;
             const selected = i === 0 ? 'selected' : '';
-            return `<button class="rent-duration-btn ${selected}" 
-                                data-id="${item.id}" 
-                                data-duration="${m}" 
-                                data-price-per-one="${rentPrice}">
-                                ${m}m
-                            </button>`;
+            return `<button class="rent-duration-btn ${item.nft.isLimited ? 'limited' : ''} ${selected}" 
+                            data-id="${item.id}" 
+                            data-duration="${m}" 
+                            data-price-per-one="${rentPrice}">
+                        ${m}m
+                    </button>`;
         }).join('')}
-            </div>
+    </div>
 
-            <div class="rent-price-display" id="rent-price-${item.id}">
-                Your monthly rent: ${firstPrice} 
-                <img src="content/xml-icon.png" class="price-icon" />
-            </div>
+    <div class="rent-price-display ${item.nft.isLimited ? 'limited' : ''}" id="rent-price-${item.id}">
+        Your monthly rent: ${firstPrice} 
+        <img src="content/xml-icon.png" class="price-icon" />
+    </div>
 
-            <button class="rent-now-btn" 
-                data-id="${item.id}" 
-                data-duration="${firstDuration}" 
-                data-count="${firstCount}"
-                data-price-per-month="${pricePerOne}">
-                Rent
-            </button>
-        ` : `
-            <div class="rent-price-display rent-receive-display">
-                All NFT are rented out.
-                <img src="content/xml-icon.png" class="price-icon" />
-            </div>
-        `;
+    <button class="rent-now-btn ${item.nft.isLimited ? 'limited' : ''}" 
+        data-id="${item.id}" 
+        data-duration="${firstDuration}" 
+        data-count="${firstCount}"
+        data-price-per-month="${pricePerOne}">
+        Rent
+    </button>
+` : `
+    <div class="rent-price-display rent-receive-display ${item.nft.isLimited ? 'limited' : ''}">
+        All NFT are rented out.
+        <img src="content/xml-icon.png" class="price-icon" />
+    </div>
+`;
+
 
         card.innerHTML = `
             <img src="https://miniappservcc.com/get-image?path=${item.nft.image}" class="purchase-history-img" />
@@ -372,10 +377,11 @@ function renderUserHistory(list) {
                 <strong>${item.nft.name}</strong>
                 <p><b>Collection:</b> ${item.nft.collection.name}</p>
                 <p><b>In Rent:</b> ${rentedCount} / <b>Available:</b> ${availableCount}</p>
-                <p><b>Price:</b> ${item.nft.price * item.count} <img src="content/money-icon.png" class="price-icon"/></p>
+                <p><b>Price:</b> ${item.nft.price * totalCount} <img src="content/money-icon.png" class="price-icon"/></p>
             </div>
             ${rentBlock}
         `;
+
         if (Array.isArray(item.rent) && item.rent.length > 0) {
             const summaryWrapper = document.createElement("div");
             summaryWrapper.className = "rent-summary-wrapper";
@@ -414,6 +420,7 @@ function renderUserHistory(list) {
         }
         container.appendChild(card);
     });
+
 
     container.querySelectorAll(".qty-btn").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -516,16 +523,6 @@ function updateCacheAfterRent(userNftId, duration, countRented) {
 }
 
 document.getElementById("refresh-history")?.addEventListener("click", () => loadUserHistory(false));
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadUserHistory();
-});
-
-document.getElementById("refresh-history")?.addEventListener("click", () => loadUserHistory(false));
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadUserHistory();
-});
 
 
 window.closePopup = closePopup;
