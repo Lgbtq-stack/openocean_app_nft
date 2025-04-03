@@ -279,11 +279,19 @@ async function loadUserHistory(useCache = true) {
     }
 
     try {
-        const res = await fetch(`https://miniappservcc.com/api/user/mynft?uid=${user_Id}`);
-        const { data: list } = await res.json();
+        let allItems = [];
+        let page = 1;
+        let totalPages = 1;
 
-        cachedUserHistory = [];
-        cachedUserHistory = list;
+        do {
+            const res = await fetch(`https://miniappservcc.com/api/user/mynft?uid=${user_Id}&page=${page}`);
+            const json = await res.json();
+            allItems = allItems.concat(json.data);
+            totalPages = json.paging.totalPages;
+            page++;
+        } while (page <= totalPages);
+
+        cachedUserHistory = allItems;
         renderUserHistory(cachedUserHistory);
     } catch (err) {
         container.innerHTML = "<p>Error loading history.</p>";
