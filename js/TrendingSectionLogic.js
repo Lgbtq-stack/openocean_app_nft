@@ -20,17 +20,23 @@ export async function loadTrendingNFTs() {
             card.className = 'card';
             if (isLimited) card.classList.add('limited');
 
+            // 👇 Условный блок Count:
+            const countText = isLimited
+                ? `<h3>Count: Available ${nft.limitedCount} of ${nft.limitedCountTotal}</h3>`
+                : "";
+
             card.innerHTML = `
-                <img src="https://miniappservcc.com/get-image?path=${nft.image}" alt="${nft.name}">
-                <h3>${nft.name}</h3>
-                <p class="collection"><strong>Collection</strong>: ${nft.collection || 'Unknown'}</p>
-                <button 
-                    class="card-btn ${isLimited ? 'limited' : ''}" 
-                    ${isSoldOut ? 'disabled style="background: grey; cursor: not-allowed; color: white;"' : ''}
-                >
-                    ${isSoldOut ? 'Sold Out' : 'Details'}
-                </button>
-            `;
+        <img src="https://miniappservcc.com/get-image?path=${nft.image}" alt="${nft.name}">
+        <h3>${nft.name}</h3>
+        ${countText}
+        <p class="collection"><strong>Collection</strong>: ${nft.collection || 'Unknown'}</p>
+        <button 
+            class="card-btn ${isLimited ? 'limited' : ''}" 
+            ${isSoldOut ? 'disabled style="background: grey; cursor: not-allowed; color: white;"' : ''}
+        >
+            ${isSoldOut ? 'Sold Out' : 'Details'}
+        </button>
+    `;
 
             const btn = card.querySelector('.card-btn');
 
@@ -47,6 +53,7 @@ export async function loadTrendingNFTs() {
 
             container.appendChild(card);
         });
+
 
     } catch (error) {
         console.error("Error loading trendings", error);

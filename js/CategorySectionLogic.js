@@ -201,7 +201,12 @@ export async function loadCategories(page = 1, category) {
                 card.innerHTML = `
             <img src="https://miniappservcc.com/get-image?path=${item.image}" alt="${item.name}">
             <h3>${item.name}</h3>
-            <p class="collection"><strong>Collection</strong>: ${item.collection.name || 'Unknown'}</p>
+            <h3>Count: Available ${item.limitedCount} of ${item.limitedCountTotal}</h3>
+            <p>Collection: ${
+                    item.isLimited
+                        ? 'Limited Edition'
+                        : (item.collection?.name || 'Unknown')
+                }</p>
             <button 
                 class="card-btn ${isLimited ? 'limited' : ''}" 
                 disabled 
@@ -485,6 +490,9 @@ async function performSearch(searchText) {
         filteredItems.forEach(item => {
             const card = document.createElement('div');
             card.className = item.isLimited ? 'card nft-card limited' : 'card nft-card';
+            const countText = item.isLimited
+                ? `<h3 class="nft-count">Available ${item.limitedCount} of ${item.limitedCountTotal}</h3>`
+                : "";
 
             card.innerHTML = `
                 <div class="nft-image-container">
@@ -492,8 +500,15 @@ async function performSearch(searchText) {
                 </div>
                 <div class="nft-details">
                     <h3 class="nft-title">${item.name}</h3>
-                    <p class="nft-price">Price: ${item.price} <img src="content/money-icon.png" alt="Money Icon" class="price-icon" /></p>
-                    <p>Collection: ${item.collection.name || 'Unknown'}</p>
+                    ${countText}
+                    <p class="nft-price">Price: ${item.price} 
+                        <img src="content/money-icon.png" alt="Money Icon" class="price-icon" />
+                    </p>
+                    <p>Collection: ${
+                            item.isLimited
+                                ? 'Limited Edition'
+                                : (item.collection?.name || 'Unknown')
+                        }</p>
                 </div>
             `;
 
@@ -575,14 +590,23 @@ function renderNFTList(items) {
         card.setAttribute("data-price", item.price);
         card.setAttribute("data-name", item.name);
 
+        const countText = item.isLimited
+            ? `<h3 class="nft-count">Available ${item.limitedCount} of ${item.limitedCountTotal}</h3>`
+            : "";
+
         card.innerHTML = `
           <div class="nft-image-container">
             <img src="https://miniappservcc.com/get-image?path=${item.image}" alt="${item.name}" class="nft-image">
           </div>
           <div class="nft-details">
             <h3 class="nft-title">${item.name}</h3>
+            ${countText}
             <p class="nft-price">Price: ${item.price} <img src="content/money-icon.png" alt="Money Icon" class="price-icon" /></p>
-            <p>Collection: ${item.isLimited ? 'Limited Edition' : item.collection.name || 'Unknown'}</p>
+            <p>Collection: ${
+                item.isLimited
+                    ? 'Limited Edition'
+                    : (item.collection || 'Unknown')
+            }</p>
           </div>
         `;
 

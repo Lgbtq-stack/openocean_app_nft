@@ -162,12 +162,13 @@ export async function showLimitedNFTDetails(id, dataSource) {
         console.error("Failed to fetch NFT data by name:", err);
         return;
     }
-
+    console.log(nft);
     document.getElementById('limited-nft-image').src = `https://miniappservcc.com/get-image?path=${nft.image}`;
     document.getElementById('limited-nft-title').innerHTML = nft.name;
     document.getElementById('limited-nft-country').innerHTML = nft.limitedCountry || 'Unknown';
     document.getElementById('limited-nft-description').innerHTML = nft.description || 'No description available';
     document.getElementById('limited-nft-collection').textContent = nft.collection || 'Unknown';
+    document.getElementById('limited-nft-count').innerHTML = `Available ${nft.limitedCount} of ${nft.limitedCountTotal}`;
 
     // Tags
     const tagContainer = document.getElementById('limited-nft-tags');
@@ -184,11 +185,48 @@ export async function showLimitedNFTDetails(id, dataSource) {
     document.getElementById('limited-nftDetailsPanel').classList.add('show');
     document.body.style.overflow = 'hidden';
 
-    // Close button
     document.querySelector('.limited-close-panel')?.addEventListener('click', () => {
         document.getElementById('limited-nftDetailsPanel').classList.remove('show');
         document.body.style.overflow = '';
     }, { once: true });
+
+    if (nft.limitedCount < 1) {
+        document.getElementById('limited-nftDetailsPanel').classList.add('show');
+        document.body.style.overflow = 'hidden';
+
+        document.getElementById('limited-nft-image').src = `https://miniappservcc.com/get-image?path=${nft.image}`;
+        document.getElementById('limited-nft-title').innerHTML = nft.name;
+        document.getElementById('limited-nft-country').innerHTML = nft.limitedCountry || 'Unknown';
+        document.getElementById('limited-nft-description').innerHTML = nft.description || 'No description available';
+        document.getElementById('limited-nft-collection').textContent = nft.collection || 'Unknown';
+
+        const tagContainer = document.getElementById('limited-nft-tags');
+        tagContainer.innerHTML = (nft.tags || []).map(tag => `<span class="limited-nft-tag">${tag.name}</span>`).join(' ') || '<span class="limited-nft-tag">No tags</span>';
+
+        document.getElementById('limited-nft-price').innerHTML = `
+        <div>
+            <span>${nft.price} <img src="content/money-icon.png" class="limited-price-icon" /></span>
+        </div>
+    `;
+
+        document.getElementById("limited-quantity-controls").style.display = "none";
+        document.getElementById("limited-total-price-display").style.display = "none";
+
+        const purchaseBtn = document.getElementById("limited-purchase-button");
+        purchaseBtn.textContent = "Sold Out";
+        purchaseBtn.disabled = true;
+        purchaseBtn.classList.add("sold-out");
+        purchaseBtn.style.backgroundColor = "grey";
+        purchaseBtn.style.color = "white";
+        purchaseBtn.style.cursor = "not-allowed";
+
+        document.querySelector('.limited-close-panel')?.addEventListener('click', () => {
+            document.getElementById('limited-nftDetailsPanel').classList.remove('show');
+            document.body.style.overflow = '';
+        }, { once: true });
+
+        return;
+    }
 
     // Quantity logic
     let quantity = 1;
@@ -276,7 +314,6 @@ export async function showLimitedNFTDetails(id, dataSource) {
                             <img src="https://miniappservcc.com/get-image?path=${nft.image}" class="purchased-image-small" alt="${nft.name}" />
                             <h3 class="purchased-title">${nft.name}</h3>
                             <p class="purchased-author">by ${nft.collection || 'Unknown'}</p>
-                            <div class="limited-badge">🔥 LIMITED</div>
                         `;
                         purchasedList.appendChild(card);
                     }
