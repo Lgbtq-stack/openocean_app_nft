@@ -201,7 +201,7 @@ export async function loadCategories(page = 1, category) {
                 card.innerHTML = `
             <img src="https://miniappservcc.com/get-image?path=${item.image}" alt="${item.name}">
             <h3>${item.name}</h3>
-            <p class="collection"><strong>Collection</strong>: ${item.collection || 'Unknown'}</p>
+            <p class="collection"><strong>Collection</strong>: ${item.collection.name || 'Unknown'}</p>
             <button 
                 class="card-btn ${isLimited ? 'limited' : ''}" 
                 disabled 
@@ -223,7 +223,7 @@ export async function loadCategories(page = 1, category) {
                     <img src="content/nft_extra.png" alt="NFT Extra Icon" class="price-icon" />
                 </p>
                 <h4>${item.name}</h4>
-                <p class="collection-label">🏷️ ${item.collection}</p>
+                <p class="collection-label">🏷️ ${item.collection.name}</p>
             </div>
         `;
 
@@ -493,7 +493,7 @@ async function performSearch(searchText) {
                 <div class="nft-details">
                     <h3 class="nft-title">${item.name}</h3>
                     <p class="nft-price">Price: ${item.price} <img src="content/money-icon.png" alt="Money Icon" class="price-icon" /></p>
-                    <p>Collection: ${item.collection || 'Unknown'}</p>
+                    <p>Collection: ${item.collection.name || 'Unknown'}</p>
                 </div>
             `;
 
@@ -582,7 +582,7 @@ function renderNFTList(items) {
           <div class="nft-details">
             <h3 class="nft-title">${item.name}</h3>
             <p class="nft-price">Price: ${item.price} <img src="content/money-icon.png" alt="Money Icon" class="price-icon" /></p>
-            <p>Collection: ${item.isLimited ? 'Limited' : item.collection.name || 'Unknown'}</p>
+            <p>Collection: ${item.isLimited ? 'Limited Edition' : item.collection.name || 'Unknown'}</p>
           </div>
         `;
 
