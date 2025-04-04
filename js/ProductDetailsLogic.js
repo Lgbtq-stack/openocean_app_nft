@@ -4,13 +4,12 @@ import {showErrorPopup} from "./PopupLogic.js";
 
 export async function showNFTDetails(id, dataSource) {
 
-    let nft = dataSource?.find(item => item.id === id || item.id === Number(id));
+    let nft = dataSource.trending?.find(item => item.id === id || item.id === Number(id));
 
     try {
         const res = await fetch(`https://miniappservcc.com/api/nfts/search-nft?q=${encodeURIComponent(nft.name)}`);
         const json = await res.json();
 
-        console.log(json);
         if (Array.isArray(json.results)) {
             nft = json.results.find(item => item.name.toLowerCase() === nft.name.toLowerCase());
         }
@@ -162,7 +161,7 @@ export async function showLimitedNFTDetails(id, dataSource) {
         console.error("Failed to fetch NFT data by name:", err);
         return;
     }
-    console.log(nft);
+
     document.getElementById('limited-nft-image').src = `https://miniappservcc.com/get-image?path=${nft.image}`;
     document.getElementById('limited-nft-title').innerHTML = nft.name;
     document.getElementById('limited-nft-country').innerHTML = nft.limitedCountry || 'Unknown';
