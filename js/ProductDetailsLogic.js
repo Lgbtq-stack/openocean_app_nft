@@ -3,8 +3,14 @@ import {user_Id} from "./index.js";
 import {showErrorPopup} from "./PopupLogic.js";
 
 export async function showNFTDetails(id, dataSource) {
+    let nft = Array.isArray(dataSource)
+        ? dataSource.find(item => item.id === id || item.id === Number(id))
+        : null;
 
-    let nft = dataSource?.find(item => item.id === id || item.id === Number(id));
+    if (!nft && Array.isArray(dataSource?.trending)) {
+        nft = dataSource.trending.find(item => item.id === id || item.id === Number(id));
+    }
+
 
     try {
         const res = await fetch(`https://miniappservcc.com/api/nfts/search-nft?q=${encodeURIComponent(nft.name)}`);
