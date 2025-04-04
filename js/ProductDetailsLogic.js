@@ -4,7 +4,7 @@ import {showErrorPopup} from "./PopupLogic.js";
 
 export async function showNFTDetails(id, dataSource) {
 
-    let nft = dataSource.trending?.find(item => item.id === id || item.id === Number(id));
+    let nft = dataSource?.find(item => item.id === id || item.id === Number(id));
 
     try {
         const res = await fetch(`https://miniappservcc.com/api/nfts/search-nft?q=${encodeURIComponent(nft.name)}`);
