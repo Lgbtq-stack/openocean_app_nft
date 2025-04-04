@@ -472,9 +472,20 @@ async function performSearch(searchText) {
         const json = await res.json();
         const allItems = json.results;
 
+        function stripHTML(str) {
+            const div = document.createElement("div");
+            div.innerHTML = str;
+            return div.textContent || div.innerText || "";
+        }
+
         const filteredItems = allItems.filter(item => {
-            const nameMatch = item.name?.toLowerCase().includes(searchText);
-            const tagMatch = (item.tags || []).some(tag => tag.name.toLowerCase().includes(searchText));
+            const plainName = stripHTML(item.name || '').toLowerCase();
+            const nameMatch = plainName.includes(searchText);
+
+            const tagMatch = (item.tags || []).some(tag =>
+                tag.name.toLowerCase().includes(searchText)
+            );
+
             return nameMatch || tagMatch;
         });
 
